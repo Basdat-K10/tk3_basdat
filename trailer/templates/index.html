@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Trailer</title>
+    </head>
+    <body>
+        <h1>Daftar Tayangan</h1>
+        <table>
+            <tr>
+                <th>Judul</th>
+                <th>Genre</th>
+                <th>Rating</th>
+                <th>Trailer</th>
+            </tr>
+            {% for movie in movies %}
+            <tr>
+                <td>{{ movie.judul }}</td>
+                <td>{{ movie.genre }}</td>
+                <td>{{ movie.rating }}</td>
+                <td><a href="{{ movie.trailer }}">Trailer</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </body>
+</html>
