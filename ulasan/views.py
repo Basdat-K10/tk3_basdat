@@ -11,6 +11,6 @@ def index(request):
             ]
         }
 
-        return render(request, "index.html", context=context)
+        return render(request, "index_ulasan.html", context=context)
     except Exception as e:
         return render(request, "404.html", {"error": e})

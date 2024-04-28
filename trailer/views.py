@@ -84,7 +84,7 @@ def index(request):
             ]
         }
         
-        return render(request, "index.html", context)
+        return render(request, "index_trailer.html", context)
     except Exception as e:
         print(e)    
 

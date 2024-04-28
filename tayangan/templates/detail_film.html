@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 {% block meta %}
@@ -9,7 +9,7 @@
     <h1 class="center-content">Halaman Film</h1>
     <div>
         <p>
-            <strong>Judul Film:</strong> {{ film.title }}<br>
+            <strong>Judul Film:</strong> {{ title }}<br>
         </p>
     </div>
     <div>
@@ -19,31 +19,31 @@
     </div>
     <div>
         <p>
-            <strong>Total View:</strong> {{ film.total_view }}<br>
-            <strong>Rating Rata Rata :</strong> {{ film.rating }}<br>
-            <strong>Sinopsis Film :</strong> {{ film.sinopsis }}<br>
-            <strong>Durasi Film:</strong> {{ film.durasi }}<br>
-            <strong>URL Film:</strong> {{ film.url_film }}<br>
+            <strong>Total View:</strong> {{ total_view }}<br>
+            <strong>Rating Rata Rata :</strong> {{ rating_rata_rata }}<br>
+            <strong>Sinopsis Film :</strong> {{ sinopsis }}<br>
+            <strong>Durasi Film:</strong> {{ durasi_film }}<br>
+            <strong>URL Film:</strong> {{ url_film }}<br>
         </p>
     </div>
     <div>
         <h4>Genre</h4>
         <ul>
-            {% for genre in genres %}
-            <li>{{ genre.genre }}</li>
+            {% for genres in genre %}
+            <li>{{ genres }}</li>
             {% endfor %}
     </div>
     <div>
         <p>
-            <strong>Asal Negara:</strong> {{ film.asal_negara }}<br>
+            <strong>Asal Negara:</strong> {{ asal_negara }}<br>
         </p>
     </div>
 
     <div>
         <h4>Daftar Pemain</h4>
         <ul>
-            {% for pemain in pemains %}
-            <li>{{ pemain }}</li>
+            {% for pemains in pemain %}
+            <li>{{ pemains }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -57,7 +57,7 @@
     </div>
     <div>
         <p>
-            <strong>Sutradara:</strong> {{ film.release_date }}<br>
+            <strong>Sutradara:</strong> {{ sutradara }}<br>
         </p>
     </div>
 

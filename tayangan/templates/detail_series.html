@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 {% block meta %}
@@ -6,17 +6,17 @@
 <link rel="stylesheet" href="{% static 'style.css' %}">
 {% endblock meta %}
 <body>
-    <h1 class="center-content">Halaman Film</h1>
+    <h1 class="center-content">Halaman Series</h1>
     <div>
         <p>
-            <strong>Judul Film:</strong> {{ film.title }}<br>
+            <strong>Judul Film:</strong> {{ title }}<br>
         </p>
     </div>
     <div>
         <h4>Episode</h4>
         <ul>
-            {% for episode in episodes %}
-            <li>{{ episode }}</li>
+            {% for episodes in episode %}
+            <li>{{ episodes }}</li>
             {% endfor %}
     </div>
     <div>
@@ -25,36 +25,29 @@
     </div>
     <div>
         <p>
-            <strong>Total View:</strong> {{ film.total_view }}<br>
-            <strong>Rating Rata Rata :</strong> {{ film.rating }}<br>
-            <strong>Sinopsis Series :</strong> {{ film.sinopsis }}<br>
+            <strong>Total View:</strong> {{ total_view }}<br>
+            <strong>Rating Rata Rata :</strong> {{ rating_rata_rata }}<br>
+            <strong>Sinopsis Series :</strong> {{ sinopsis }}<br>
         </p>
-    </div>
-     <div>
-        <h4>Genre</h4>
-        <ul>
-            {% for genre in genres %}
-            <li>{{ genre.genre }}</li>
-            {% endfor %}
     </div>
     <div>
         <h4>Genre</h4>
         <ul>
-            {% for genre in genres %}
-            <li>{{ genre.genre }}</li>
+            {% for genres in genre %}
+            <li>{{ genres }}</li>
             {% endfor %}
     </div>
     <div>
         <p>
-            <strong>Asal Negara:</strong> {{ film.asal_negara }}<br>
+            <strong>Asal Negara:</strong> {{ asal_negara }}<br>
         </p>
     </div>
 
     <div>
         <h4>Daftar Pemain</h4>
         <ul>
-            {% for pemain in pemains %}
-            <li>{{ pemain }}</li>
+            {% for pemains in pemain %}
+            <li>{{ pemains }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -68,7 +61,7 @@
     </div>
     <div>
         <p>
-            <strong>Sutradara:</strong> {{ film.release_date }}<br>
+            <strong>Sutradara:</strong> {{ sutradara }}<br>
         </p>
     </div>
 

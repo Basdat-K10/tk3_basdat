@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 {% block meta %}
@@ -9,25 +9,25 @@
     <h1 class="center-content">Halaman Episode</h1>
     <div>
         <p>
-            <strong>Judul Episode:</strong> {{ episode.title }}<br>
-            <strong>Sub Judul:</strong> {{ episode.sub_title }}<br>
+            <strong>Judul Episode:</strong> {{ title }}<br>
+            <strong>Sub Judul:</strong> {{ sub_title }}<br>
         </p>
     </div>
     <button><a href="#">Tonton Episode</a></button>
 
     <div>
         <h4>Daftar Episode Lainnya</h4>
-        {% for episode in episodes %}
+        {% for episode in other_episode %}
         <ul>
-            <li>{{ episode.title }}</li>
+            <li>{{ episode }}</li>
         </ul>
         {% endfor %}
     </div>
         <p>
-            <strong>Sinopsis Episode :</strong> {{ episode.sinopsis }}<br>
-            <strong>Durasi Episode:</strong> {{ episode.durasi }}<br>
-            <strong>URL Episode:</strong> {{ episode.url_episode }}<br>
-            <strong>Tanggal Rilis:</strong> {{ episode.release_date }}<br>
+            <strong>Sinopsis Episode :</strong> {{ sinopsis_episode }}<br>
+            <strong>Durasi Episode:</strong> {{ durasi_episode }}<br>
+            <strong>URL Episode:</strong> {{ url_episode }}<br>
+            <strong>Tanggal Rilis:</strong> {{ tanggal_rilis_episode }}<br>
         </p>
     <div>
 

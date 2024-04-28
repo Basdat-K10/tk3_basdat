@@ -24,6 +24,7 @@
                 <th class="outlined-column">URL Trailer</th>
                 <th class="outlined-column">Tanggal Rilis Trailer</th>
                 <th class="outlined-column">Total View 7 Hari Terakhir</th>
+                <th class="outlined-column">Detail</th>
             </tr>
             {% for movie in movies %}
             <tr>
@@ -33,6 +34,11 @@
                 <td class="outlined-column">{{ movie.url }}</td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">{{ movie.total_view }}</td>
+                <td class="outlined-column">
+                    <button>
+                        <a href="#">Detail {{ movie.title }}</a>    
+                    </button>
+                </td>
             </tr>
             {% endfor %}
         </table>
@@ -46,6 +52,7 @@
                 <th class="outlined-column">URL Trailer</th>
                 <th class="outlined-column">Tanggal Rilis Trailer</th>
                 <th class="outlined-column">Total View 7 Hari Terakhir</th>
+                <th class="outlined-column">Detail</th>
             </tr>
             {% for movie in films %}
             <tr>
@@ -55,6 +62,11 @@
                 <td class="outlined-column">{{ movie.url }}</td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">{{ movie.total_view }}</td>
+                <td class="outlined-column">
+                    <button>
+                        <a href="#">Detail {{ movie.title }}</a>    
+                    </button>
+                </td>
             </tr>
             {% endfor %}
         </table>
@@ -75,14 +87,14 @@
                 <td class="outlined-column">{{ movie.rank }}</td>
                 <td class="outlined-column">{{ movie.title }}</td>
                 <td class="outlined-column">{{ movie.synopsis }}</td>
-                <td class="outlined-column">{{ movie.url }}</td>
+                <td class="outlined-column"><a>{{ movie.url }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">{{ movie.total_view }}</td>
                 <td class="outlined-column">
                 <button>
-                    <a href="{% url 'detail' movie.id %}">Detail {{ movie title }}</a>    
+                    <a href="#">Detail {{ movie.title }}</a>    
                 </button>
-            </td>
+                </td>
             </tr>
             {% endfor %}
         </table>

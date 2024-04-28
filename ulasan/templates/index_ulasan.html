@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 {% block meta %}
@@ -17,7 +17,7 @@
     <div>
         <h4>Daftar Ulasan</h4>
         <ul>
-            {% for ulasan in ulasans %}
+            {% for ulasan in daftar_ulasan %}
             <li>{{ ulasan }}</li>
             {% endfor %}
         </ul>

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -84,9 +85,10 @@ def index(request):
             ]
         }
         
-        return render(request, "index.html", context)
+        return render(request, "index_tayangan.html", context)
     except Exception as e:
         print(e)    
+        return HttpResponse(e)
 
 def detail_series(request, id):
     try :
@@ -117,6 +119,7 @@ def detail_series(request, id):
         return render(request, "detail_series.html", context)
     except Exception as e:
         print(e)
+        return e
 
 def detail_film(request, id):
     try :
@@ -145,6 +148,7 @@ def detail_film(request, id):
         return render(request, "detail_film.html", context)
     except Exception as e:
         print(e)
+        return HttpResponse(e)
 
 def detail_episode(request, id):
     try: 
