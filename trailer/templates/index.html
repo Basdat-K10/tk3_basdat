@@ -1,25 +1,85 @@
-<html>
-    <head>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    {% block meta %}
         <title>Trailer</title>
-    </head>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% endblock meta %}
     <body>
-        <h1>Daftar Tayangan</h1>
-        <table>
+        <h1 class="center-content">Daftar Tayangan</h1>
+        <div class="center-content inline-search">
+            <p>Search : <input type: "search"/></p>
+        </div>
+        
+
+        <h2 class="center-content">10 Tayangan Terbaik Minggu ini</h2>
+        <div class="center-content">
+            <a class="outlined-column">Top 10 Global</a><a class="outlined-column">Top 10 Negara Pengguna</a>
+        </div>
+        
+        <table class="center-content outlined" id="tayangan">
             <tr>
-                <th>Judul</th>
-                <th>Genre</th>
-                <th>Rating</th>
-                <th>Trailer</th>
+                <th class="outlined-column">Peringkat</th>
+                <th class="outlined-column">Judul</th>
+                <th class="outlined-column">Sinopsis Trailer</th>
+                <th class="outlined-column">URL Trailer</th>
+                <th class="outlined-column">Tanggal Rilis Trailer</th>
+                <th class="outlined-column">Total View 7 Hari Terakhir</th>
             </tr>
             {% for movie in movies %}
             <tr>
-                <td>{{ movie.judul }}</td>
-                <td>{{ movie.genre }}</td>
-                <td>{{ movie.rating }}</td>
-                <td><a href="{{ movie.trailer }}">Trailer</a></td>
+                <td class="outlined-column">{{ movie.rank }}</td>
+                <td class="outlined-column">{{ movie.title }}</td>
+                <td class="outlined-column">{{ movie.synopsis }}</td>
+                <td class="outlined-column">{{ movie.url }}</td>
+                <td class="outlined-column">{{ movie.release_date }}</td>
+                <td class="outlined-column">{{ movie.total_view }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3 class="center-content">Film</h3>
+        <table class="center-content outlined" id="tayangan">
+            <tr>
+                <th class="outlined-column">Peringkat</th>
+                <th class="outlined-column">Judul</th>
+                <th class="outlined-column">Sinopsis Trailer</th>
+                <th class="outlined-column">URL Trailer</th>
+                <th class="outlined-column">Tanggal Rilis Trailer</th>
+                <th class="outlined-column">Total View 7 Hari Terakhir</th>
+            </tr>
+            {% for movie in films %}
+            <tr>
+                <td class="outlined-column">{{ movie.rank }}</td>
+                <td class="outlined-column">{{ movie.title }}</td>
+                <td class="outlined-column">{{ movie.synopsis }}</td>
+                <td class="outlined-column">{{ movie.url }}</td>
+                <td class="outlined-column">{{ movie.release_date }}</td>
+                <td class="outlined-column">{{ movie.total_view }}</td>
             </tr>
             {% endfor %}
         </table>
         
+        <h3 class="center-content">Series</h3>
+        <table class="center-content outlined" id="tayangan">
+            <tr>
+                <th class="outlined-column">Peringkat</th>
+                <th class="outlined-column">Judul</th>
+                <th class="outlined-column">Sinopsis Trailer</th>
+                <th class="outlined-column">URL Trailer</th>
+                <th class="outlined-column">Tanggal Rilis Trailer</th>
+                <th class="outlined-column">Total View 7 Hari Terakhir</th>
+            </tr>
+            {% for movie in series %}
+            <tr>
+                <td class="outlined-column">{{ movie.rank }}</td>
+                <td class="outlined-column">{{ movie.title }}</td>
+                <td class="outlined-column">{{ movie.synopsis }}</td>
+                <td class="outlined-column">{{ movie.url }}</td>
+                <td class="outlined-column">{{ movie.release_date }}</td>
+                <td class="outlined-column">{{ movie.total_view }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </body>
-</html>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends base.html %}
+{% load static %}
+{% block content %}
+{% block meta %}
+<title>Detail Film</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock meta %}
+<body>
+    <h1 class="center-content">Halaman Film</h1>
+    <div>
+        <p>
+            <strong>Judul Film:</strong> {{ film.title }}<br>
+        </p>
+    </div>
+    <div>
+        <button><a href="#">Tonton Film</a></button>
+        <button><a href="#">Unduh Film</a></button>
+        <button><a href="#">Tambah Favorit</a></button>
+    </div>
+    <div>
+        <p>
+            <strong>Total View:</strong> {{ film.total_view }}<br>
+            <strong>Rating Rata Rata :</strong> {{ film.rating }}<br>
+            <strong>Sinopsis Film :</strong> {{ film.sinopsis }}<br>
+            <strong>Durasi Film:</strong> {{ film.durasi }}<br>
+            <strong>URL Film:</strong> {{ film.url_film }}<br>
+        </p>
+    </div>
+    <div>
+        <h4>Genre</h4>
+        <ul>
+            {% for genre in genres %}
+            <li>{{ genre.genre }}</li>
+            {% endfor %}
+    </div>
+    <div>
+        <p>
+            <strong>Asal Negara:</strong> {{ film.asal_negara }}<br>
+        </p>
+    </div>
+
+    <div>
+        <h4>Daftar Pemain</h4>
+        <ul>
+            {% for pemain in pemains %}
+            <li>{{ pemain }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h4>Daftar Penulis Skenario</h4>
+        <ul>
+            {% for penulis in penulis_skenario %}
+            <li>{{ penulis }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <p>
+            <strong>Sutradara:</strong> {{ film.release_date }}<br>
+        </p>
+    </div>
+
+    <button><a href="#">Lihat Ulasan</a></button>
+</body>
+{% endblock content %}

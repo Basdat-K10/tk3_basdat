@@ -1,0 +1,32 @@
+{% extends base.html %}
+{% load static %}
+{% block content %}
+{% block meta %}
+<title>Hasil Pencarian</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock meta %}
+<body>
+    <h1 class="center-content">Hasil Pencarian</h1>
+    <div class="center-content inline-search">
+        <p>Search : <input type: "search"/></p>
+    </div>
+    <table class="center-content outlined" id="tayangan">
+        <tr>
+            <th class="outlined-column">Judul</th>
+            <th class="outlined-column">Sinopsis Trailer</th>
+            <th class="outlined-column">URL Trailer</th>
+            <th class="outlined-column">Tanggal Rilis Trailer</th>
+            <th class="outlined-column">Tayangan</th>
+        </tr>
+        {% for movie in movies %}
+        <tr>
+            <td class="outlined-column">{{ movie.title }}</td>
+            <td class="outlined-column">{{ movie.synopsis }}</td>
+            <td class="outlined-column">{{ movie.url }}</td>
+            <td class="outlined-column">{{ movie.release_date }}</td>
+            <td class="outlined-column"><a href="{% url 'detail' movie.id %}">Detail</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock content %}
