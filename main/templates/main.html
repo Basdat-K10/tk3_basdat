@@ -2,7 +2,13 @@
 
 {% block content %}
 <div>
+    <h1>Hi</h1>
     
+    <ul>
+        {% for item in result %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
 
 </div>
 {% endblock content %}
