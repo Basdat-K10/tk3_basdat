@@ -39,6 +39,9 @@
         td:nth-child(3) {
             text-align: right;
         }
+        td:nth-child(2){
+            text-align: center;
+        }
         th {
             background-color: #baa5d4;
             color: #010845;
@@ -75,7 +78,7 @@
         <thead>
             <tr>
                 <th>Judul</th>
-                <th>Waktu Ditambahkan</th>
+                <th style="text-align: center">Waktu Ditambahkan</th>
                 <th></th>
             </tr>
         </thead>
@@ -103,7 +106,7 @@
         row.innerHTML = `
             <td>${item.title}</td>
             <td>${item.addedAt}</td>
-            <td><button class="delete-btn" onclick="deleteItem('${item.title}')">Hapus</button></td>
+            <td><button class="delete-btn" onclick="deleteItem('${item.title}')">Delete</button></td>
         `;
         favoriteList.appendChild(row);
     });
