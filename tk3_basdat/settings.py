@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "ulasan",
     "daftar_favorit",
     "daftar_unduh",
+    "daftar_kontributor",
+    "langganan"
 ]
 
 MIDDLEWARE = [

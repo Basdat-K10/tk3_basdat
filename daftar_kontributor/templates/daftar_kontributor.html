@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to bottom, #2F338A, #010845);
+            color: #f7f7f7;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 65%;
+            margin: 50px auto;
+            background-color: #010845;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1px;
+            color: white;
+            
+        }
+        th, td {
+            padding: 12px; 
+            text-align: left;
+        }
+        td:nth-child(3) {
+            text-align: right;
+        }
+        td:nth-child(2){
+            text-align: center;
+        }
+        th {
+            background-color: #baa5d4;
+            color: #010845;
+        }
+        tr:hover {
+            background-color: #463BB3;
+        }
+        .delete-btn {
+            background-color: #cc353a;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        tbody {
+            padding: 10px; 
+        }
+        h1 {
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>
+    Daftar Contributor
+    </h1> 
+</div>
+<div class="container">
+    <div class="filter-message">Filtering by Tipe:</div>
+    <label>
+        <input type="checkbox" name="tipe" value="All" onclick="filterByTipe()" checked>All
+    </label>
+    <label>
+        <input type="checkbox" name="tipe" value="Penulis" onclick="filterByTipe()">Penulis
+    </label>
+    <label>
+        <input type="checkbox" name="tipe" value="Aktor" onclick="filterByTipe()">Aktor
+    </label>
+    <label>
+        <input type="checkbox" name="tipe" value="Sutradara" onclick="filterByTipe()">Sutradara
+    </label>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th class="tipe">Tipe</th>
+                <th>Jenis Kelamin</th>
+                <th>Kewarganegaraan</th>
+            </tr>
+        </thead>
+        <tbody id="contributor-list">
+            {% for contributor in contributors %}
+                <tr>
+                    <td>{{ contributor.nama }}</td>
+                    <td class="tipe">{{ contributor.tipe }}</td>
+                    <td>{{ contributor.jenis_kelamin }}</td>
+                    <td>{{ contributor.kewarganegaraan }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+ <script>
+        function filterByTipe() {
+            var checkboxes = document.querySelectorAll('input[name="tipe"]:checked');
+            var selectedTipes = Array.from(checkboxes).map(cb => cb.value);
+            var rows = document.querySelectorAll('#contributor-list tr');
+            rows.forEach(row => {
+                var tipeCell = row.querySelector('.tipe');
+                if (selectedTipes.includes(tipeCell.textContent) || selectedTipes.includes('All')) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            var filterTypeSpan = document.getElementById('filter-type');
+            filterTypeSpan.textContent = selectedTipes.join(', ');
+        }
+    </script>
+</body>
+</html>
+
+{% endblock content %}
