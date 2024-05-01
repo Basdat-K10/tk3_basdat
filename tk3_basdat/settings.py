@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "trailer",
     "tayangan",
     "ulasan",
+    "daftar_favorit",
+    "daftar_unduh",
 ]
 
 MIDDLEWARE = [
