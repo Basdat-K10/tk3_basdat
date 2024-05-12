@@ -72,19 +72,23 @@
             margin-left: 30px;
             margin-right: 30px;
         }
+
+
     </style>
         <div class=" flex-container">
             <div>
-                <a href="#" class=" button_up">Top 10 Global</a>
-                <a href="#" class=" button_up">Top 10 Negara Pengguna</a>
+                <a href="#" class="button_up">Top 10 Global</a>
+                <a href="#" class="button_up">Top 10 Negara Pengguna</a>
             </div>
             
             <div class="center-content inline-search search_input">
-                <p>Search : <input type: "search"/></p>
+                <form action="{% url 'search' %}" method="get">
+                    <p>Search : <input type="search" name="q"/></p>
+                    <input type="submit" value="Search">
+                </form>
             </div>
         </div>
         <h1 class="center-content">Daftar Tayangan</h1>
-        
         
         <div class="div_table">
             <h2 >10 Tayangan Terbaik Minggu ini</h2>
@@ -114,21 +118,17 @@
             <h2>Film</h2>
         <table class="center-content outlined" id="tayangan">
             <tr>
-                <th class="outlined-column">Peringkat</th>
                 <th class="outlined-column">Judul</th>
                 <th class="outlined-column">Sinopsis Trailer</th>
                 <th class="outlined-column">URL Trailer</th>
                 <th class="outlined-column">Tanggal Rilis Trailer</th>
-                <th class="outlined-column">Total View 7 Hari Terakhir</th>
             </tr>
             {% for movie in films %}
             <tr>
-                <td class="outlined-column">{{ movie.rank }}</td>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
-                <td class="outlined-column">{{ movie.total_view }}</td>
             </tr>
             {% endfor %}
         </table>
@@ -138,21 +138,17 @@
             <h2>Series</h2>
         <table class="center-content outlined" id="tayangan">
             <tr>
-                <th class="outlined-column">Peringkat</th>
                 <th class="outlined-column">Judul</th>
                 <th class="outlined-column">Sinopsis Trailer</th>
                 <th class="outlined-column">URL Trailer</th>
                 <th class="outlined-column">Tanggal Rilis Trailer</th>
-                <th class="outlined-column">Total View 7 Hari Terakhir</th>
             </tr>
             {% for movie in series %}
             <tr>
-                <td class="outlined-column">{{ movie.rank }}</td>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
-                <td class="outlined-column">{{ movie.total_view }}</td>
             </tr>
             {% endfor %}
         </table>

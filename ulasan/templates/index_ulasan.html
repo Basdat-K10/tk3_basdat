@@ -114,7 +114,9 @@
         <h4>Daftar Ulasan</h4>
         <ul>
             {% for ulasan in daftar_ulasan %}
-            <li>{{ ulasan }}</li>
+            <li>{{ ulasan.username }}</li>
+            <li>{{ ulasan.rating }}</li>
+            <li>{{ ulasan.deskripsi }}</li>
             {% endfor %}
         </ul>
     </div>

@@ -7,8 +7,8 @@ import os
 
 try:
     connection = psycopg2.connect(
-        user=os.getenv("DB_USERNAME", "postgres"),
-        password=os.getenv("DB_PASSWORD", "password"),
+        user=os.getenv("DB_USERNAME", os.environ.get("user")),
+        password=os.getenv("DB_PASSWORD", os.environ.get("password")),
         host=os.getenv("DB_HOST", "localhost"),
         port=os.getenv("DB_PORT", "5432"),
         database=os.getenv("DB_NAME", "postgres"))
@@ -34,8 +34,9 @@ def query(query_str: str, parameter: tuple = tuple()):
         try:
             cursor.execute(query_str, parameter)
             # Handling SELECT queries
-            if query_str.strip().upper().startswith("SELECT"):
+            if query_str.strip().upper().startswith("SELECT") or query_str.strip().upper().startswith("WITH"):
                 result = map_cursor(cursor)
+                print(result)
             else:
                 # Returns modified row count
                 result = cursor.rowcount
