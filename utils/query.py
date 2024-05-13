@@ -36,7 +36,6 @@ def query(query_str: str, parameter: tuple = tuple()):
             # Handling SELECT queries
             if query_str.strip().upper().startswith("SELECT") or query_str.strip().upper().startswith("WITH"):
                 result = map_cursor(cursor)
-                print(result)
             else:
                 # Returns modified row count
                 result = cursor.rowcount
