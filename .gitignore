@@ -3,6 +3,7 @@ env/
 .env/
 .env
 
-__pycache__
+# cache
 __pycache__/
 ../__pycache__/
+__pycache__

@@ -44,7 +44,6 @@ def index(request):
         LIMIT 10;
         """
         response = query(movie_top)
-        # print(response)
         
         movie_film = """
         SELECT 
@@ -58,7 +57,6 @@ def index(request):
         """
 
         response_film = query(movie_film)
-        # print(response_film)
 
         movie_series = """
         SELECT
@@ -92,16 +90,19 @@ def detail_series(request, id):
             FROM TAYANGAN AS t
         WHERE t.id = '{id}'
         """ 
-        print(judul_series)
+        
         response_normal = query(judul_series)
 
         query_for_episode = f"""
-        SELECT e.sub_judul AS sub_judul, e.url_video AS url_video
+        SELECT e.sub_judul AS sub_judul, 
+        e.url_video AS url_video, 
+        e.id_series as id_series,
+        CONCAT(e.id_series, e.sub_judul) AS primary_episode
         FROM EPISODE AS e
         WHERE e.id_series = '{id}'
         """
-
         response_episode = query(query_for_episode)
+        
         if(len(response_episode) == 0):
             response_episode = [{"sub_judul": "Unknown", "url_video": "Unknown"}]
 
@@ -198,8 +199,44 @@ def detail_film(request, id):
         JOIN FILM as f ON t.id = f.id_tayangan
         WHERE t.id = '{id}'
         """
-        print(query_judul_film)
+        
         response = query(query_judul_film)
+
+        query_genre = f"""
+        SELECT 
+        genre 
+        from GENRE_TAYANGAN 
+        WHERE id_tayangan = '{id}'
+        """
+        response_genre = query(query_genre)
+
+        query_pemain = f"""
+        SELECT c.nama AS nama
+        FROM CONTRIBUTORS AS c
+        JOIN PEMAIN AS p ON c.id = p.id
+        JOIN MEMAINKAN_TAYANGAN as m ON p.id = m.id_pemain
+        WHERE m.id_tayangan = '{id}'
+        """
+        response_pemain = query(query_pemain)
+
+        query_penulis = f"""
+        SELECT c.nama AS nama
+        FROM CONTRIBUTORS AS c
+        JOIN PENULIS_SKENARIO AS ps ON c.id = ps.id
+        JOIN MENULIS_SKENARIO_TAYANGAN as m ON ps.id = m.id_penulis_skenario
+        WHERE m.id_tayangan = '{id}'
+        """
+
+        response_penulis = query(query_penulis)
+
+        query_sutradara = f"""
+        SELECT c.nama AS nama
+        FROM CONTRIBUTORS AS c
+        JOIN SUTRADARA AS s ON c.id = s.id
+        JOIN TAYANGAN as t ON s.id = t.id_sutradara
+        WHERE t.id = '{id}'
+        """
+        response_sutradara = query(query_sutradara)
         
         context = {
             "title" : response[0]["title"],
@@ -209,45 +246,71 @@ def detail_film(request, id):
             "durasi_film": response[0]["durasi_film"],
             "tanggal_rilis_film": response[0]["tanggal_rilis_film"],
             "url_film": response[0]["url_film"],
-            "genre" : [
-                "Drama",
-                "Crime"
-            ],
+            "genre" : response_genre,
             "asal_negara": response[0]["asal_negara"],
-            "pemain": [
-                "Tim Robbins",
-                "Morgan Freeman"
-            ],
-            "penulis_skenario": [
-                "Frank Darabont"
-            ],
-            "sutradara": "Frank Darabont",
+            "pemain": response_pemain,
+            "penulis_skenario": response_penulis,
+            "sutradara": response_sutradara,
         }
         return render(request, "detail_film.html", context)
     except Exception as e:
         print(e)
         return HttpResponse(e)
 
-def detail_episode(request, id):
+def detail_episode(request, id_series, sub_judul):
     try: 
+        print(str(id_series) + str(sub_judul))
+        query_sub_title = f"""
+        SELECT e.sub_judul AS sub_title, t.judul AS title, e.sinopsis as sinopsis_episode, e.durasi as durasi_episode, e.url_video as url_episode, e.release_date as tanggal_rilis_episode
+        FROM EPISODE AS e
+        JOIN TAYANGAN AS t ON e.id_series = t.id
+        WHERE e.id_series = '{id_series}' AND e.sub_judul = '{sub_judul}'
+        """
+
+        response_sub_judul = query(query_sub_title)
+
+        query_episode = f"""
+        SELECT e.sub_judul AS sub_judul,
+        e.id_series AS id_series
+        FROM EPISODE AS e
+        WHERE e.id_series = '{id_series}' and e.sub_judul != '{sub_judul}';
+        """
+        response_episode = query(query_episode)
+      
         context = {
-            "title" : "The Shawshank Redemption",
-            "sub_title": "Episode 1",
-            "other_episode" : [
-                "Episode 2",
-                "Episode 3",
-            ],
-            "sinopsis_episode": "Two imprisoned lorem ipsum dolor sit amet",
-            "durasi_episode": "60 menit",
-            "url_episode": "https://www.youtube.com/watch?v=6hB3S9bIaco",
-            "tanggal_rilis_episode": "14 Oktober 1994",
+            "title" : response_sub_judul[0]['title'],
+            "sub_title": response_sub_judul[0]['sub_title'],
+            "other_episode" : response_episode,
+            "sinopsis_episode": response_sub_judul[0]['sinopsis_episode'],
+            "durasi_episode": response_sub_judul[0]['durasi_episode'],
+            "url_episode": response_sub_judul[0]['url_episode'],
+            "tanggal_rilis_episode": response_sub_judul[0]['tanggal_rilis_episode'],
         }
         return render(request, "detail_episode.html", context)
     except Exception as e:
         print(e)
 
 def search(request):
-    pass
+    search_input = request.GET.get("search")
+
+    try:
+        search_query = f"""SELECT
+        t.judul AS title,
+        t.sinopsis_trailer AS synopsis,
+        t.url_video_trailer AS url,
+        t.release_date_trailer AS release_date
+        FROM TAYANGAN AS t
+        WHERE t.judul ILIKE '%%{search_input}%%'
+        """
+        response = query(search_query)
+        context = {
+            "search": response
+        }
+        return render(request, "search.html", context)
+    except Exception as e:
+        print(e)
+        return HttpResponse(e)
+
 
 def tentukan_tayangan(request, id):
     try:
@@ -259,7 +322,6 @@ def tentukan_tayangan(request, id):
                 ELSE 'unknown'
             END AS tayangan_type
         """
-        print(query_tayangan)
         response = query(query_tayangan)
         tayangan_type = response[0]["tayangan_type"]
         if tayangan_type == "film":

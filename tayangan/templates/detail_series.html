@@ -164,7 +164,7 @@
             </tr>
             {% for episodes in episode %}
             <tr>
-                <td class="outlined-column"><a class="detail_text" href="#">{{ episodes.sub_judul }}</a></td>
+                <td class="outlined-column"><a class="detail_text" href="{% url 'episode' id_series=episodes.id_series sub_judul=episodes.sub_judul %}">{{ episodes.sub_judul }}</a></td>
             </tr>
             {% endfor %}
         </table>

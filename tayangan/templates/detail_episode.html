@@ -94,7 +94,7 @@
             <div class="col-md-6">
                 <div>
                     <p>
-                        <strong>Durasi Episode : </strong> {{ durasi_episode }}<br> 
+                        <strong>Durasi Episode : </strong> {{ durasi_episode }} menit <br> 
                 </div>
                 <div>
                     <p>
@@ -103,7 +103,7 @@
                 </div>
                 <div>
                     <p>
-                        <strong>URL Episode : </strong> {{ url_episode }}<br>
+                        <strong>URL Episode : </strong><a href="{{ url_episode }}"> {{ url_episode }}</a><br>
                     </p>
                 </div>
             </div>
@@ -121,7 +121,7 @@
             </tr>
             {% for episodes in other_episode %}
             <tr>
-                <td class="outlined-column"><a class="detail_text" href="#">{{ episodes }}</a></td>
+                <td class="outlined-column"><a class="detail_text" href="{% url 'episode' id_series=episodes.id_series sub_judul=episodes.sub_judul %}">{{ episodes.sub_judul }}</a></td>
             </tr>
             {% endfor %}
         </table>

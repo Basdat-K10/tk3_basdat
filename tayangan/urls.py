@@ -7,5 +7,5 @@ urlpatterns = [
     path("search/", search, name="search"),
     path("series/<str:id>", detail_series, name="series"),
     path("film/<str:id>", detail_film, name="film"),
-    path("series/episode/<str:id>", detail_episode, name="episode")
+    path("series/episode/<uuid:id_series>/<str:sub_judul>", detail_episode, name="episode")
 ]

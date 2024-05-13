@@ -122,7 +122,7 @@
                     <h4>Genre</h4>
                     <ul>
                         {% for genres in genre %}
-                        <li>{{ genres }}</li>
+                        <li>{{ genres.genre }}</li>
                         {% endfor %}
                 </div>
             </div>
@@ -134,7 +134,7 @@
                     <h4>Daftar Pemain</h4>
                     <ul>
                         {% for pemains in pemain %}
-                        <li>{{ pemains }}</li>
+                        <li>{{ pemains.nama }}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -142,13 +142,15 @@
                     <h4>Daftar Penulis Skenario</h4>
                     <ul>
                         {% for penulis in penulis_skenario %}
-                        <li>{{ penulis }}</li>
+                        <li>{{ penulis.nama }}</li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div>
                     <p>
-                        <h4>Sutradara :</h4> {{ sutradara }}<br>
+                        {% for sutradara_tayangan in sutradara %}
+                        <h4>Sutradara :</h4> {{ sutradara_tayangan.nama }}<br>
+                        {% endfor %}
                     </p>
                 </div>
             </div>
