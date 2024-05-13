@@ -5,5 +5,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("", index),
-    path("search/", search),
+    path("search/", search, name="search"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

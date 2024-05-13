@@ -58,8 +58,6 @@
         th {
             background-color: #B7A6D1;
             color : #2523A0;
-            
-            
         }
 
         td {
@@ -127,7 +125,7 @@
                 <td class="outlined-column">{{ movie.total_view }}</td>
                 <td class="outlined-column">
                     <button class="detail_button">
-                        <a class="detail_text" href="#">Detail {{ movie.title }}</a>    
+                        <a class="detail_text" href="{% url 'top' movie.id %}">Detail {{ movie.title }}</a>    
                     </button>
                 </td>
             </tr>
@@ -140,25 +138,21 @@
             <h2>Film</h2>
             <table class="center-content outlined" id="tayangan">
                 <tr>
-                    <th class="outlined-column">Peringkat</th>
                     <th class="outlined-column">Judul</th>
                     <th class="outlined-column">Sinopsis Trailer</th>
                     <th class="outlined-column">URL Trailer</th>
                     <th class="outlined-column">Tanggal Rilis Trailer</th>
-                    <th class="outlined-column">Total View 7 Hari Terakhir</th>
                     <th class="outlined-column">Detail</th>
                 </tr>
                 {% for movie in films %}
                 <tr>
-                    <td class="outlined-column">{{ movie.rank }}</td>
                     <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.release_date }}</td>
-                    <td class="outlined-column">{{ movie.total_view }}</td>
                     <td class="outlined-column">
                         <button class="detail_button">
-                            <a class="detail_text" href="#">Detail {{ movie.title }}</a>    
+                            <a class="detail_text" href="{% url 'film' movie.id %}">Detail {{ movie.title }}</a>    
                         </button>
                     </td>
                 </tr>
@@ -171,25 +165,21 @@
             <h2>Series</h2>
         <table class="center-content outlined" id="tayangan">
             <tr>
-                <th class="outlined-column">Peringkat</th>
                 <th class="outlined-column">Judul</th>
                 <th class="outlined-column">Sinopsis Trailer</th>
                 <th class="outlined-column">URL Trailer</th>
                 <th class="outlined-column">Tanggal Rilis Trailer</th>
-                <th class="outlined-column">Total View 7 Hari Terakhir</th>
                 <th class="outlined-column">Detail</th>
             </tr>
             {% for movie in series %}
             <tr>
-                <td class="outlined-column">{{ movie.rank }}</td>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
                 <td class="outlined-column"><a>{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
-                <td class="outlined-column">{{ movie.total_view }}</td>
                 <td class="outlined-column">
                 <button class="detail_button">
-                    <a class="detail_text" href="#">Detail {{ movie.title }}</a>    
+                    <a class="detail_text" href="{% url 'series' movie.id %}">Detail {{ movie.title }}</a>    
                 </button>
                 </td>
             </tr>
