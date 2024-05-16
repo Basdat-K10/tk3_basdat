@@ -131,14 +131,20 @@ button:active {
             </tr>
         </thead>
         <tbody id="paket-aktif-list">
+            {% if user_paket %}
             <tr>
-                    <td>Basic</td>
-                    <td>20000</td>
-                    <td>720p</td>
-                    <td>Handphone, TV</td>
-                    <td>2024-05-01</td>
-                    <td>2024-06-01</td>
+                <td>{{ user_paket.nama_paket }}</td>
+                <td>{{ user_paket.harga }}</td>
+                <td>{{ user_paket.resolusi_layar }}</td>
+                <td>{{ user_paket.dukungan_perangkat }}</td>
+                <td>{{ user_paket.start_date_time }}</td>
+                <td>{{ user_paket.end_date_time }}</td>
             </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">No active subscription package found.</td>
+            </tr>
+        {% endif %}
         </tbody>
     </table>
 </div>
@@ -156,27 +162,15 @@ button:active {
             </tr>
         </thead>
         <tbody id="paket-list">
+            {% for paket in all_paket %}
             <tr>
-                    <td>Basic</td>
-                    <td>20000</td>
-                    <td>720p</td>
-                    <td>Handphone, TV</td>
-                    <td><button>Beli</button></td>
+                <td>{{ paket.nama }}</td>
+                <td>{{ paket.harga }}</td>
+                <td>{{ paket.resolusi_layar }}</td>
+                <td>{{ paket.dukungan_perangkat }}</td>
+                <td><button onclick="beliPaket('{{ paket.nama }}')">Beli</button></td>
             </tr>
-            <tr>
-                <td>Pro</td>
-                <td>120000</td>
-                <td>1080p</td>
-                <td>Handphone, TV, Komputer</td>
-                <td><button>Beli</button></td>
-            </tr>
-            <tr>
-                <td>Super</td>
-                <td>220000</td>
-                <td>4K</td>
-                <td>Handphone, TV, Komputer</td>
-                <td><button>Beli</button></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
@@ -195,17 +189,20 @@ button:active {
             </tr>
         </thead>
         <tbody id="riwayat-list">
+            {% for transaksi in transaction_history %}
             <tr>
-                    <td>Basic</td>
-                    <td>2024-05-01</td>
-                    <td>2024-06-01</td>
-                    <td>Transfer Bank</td>
-                    <td>2024-05-01</td>
-                    <td>20000</td>
+                <td>{{ transaksi.nama_paket }}</td>
+                <td>{{ transaksi.start_date_time }}</td>
+                <td>{{ transaksi.end_date_time }}</td>
+                <td>{{ transaksi.metode_pembayaran }}</td>
+                <td>{{ transaksi.timestamp_pembayaran }}</td>
+                <td>{{ transaksi.harga }}</td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
+
 
 
 <script>
