@@ -10,10 +10,13 @@
     <div class="content">
         <h1>PACILFLIX - <span>K10</span></h1>
         <p class="subtitle">Discover a world of unlimited entertainment with PacilFlix. Enjoy thousands of movies, TV series, documentaries, and more, all at your fingertips. From blockbuster hits to hidden gems, dive into a captivating streaming experience that knows no bounds.</p>
+        {% if request.session.username %}
+        {% else %}
         <div class="buttons">
             <a href="{% url 'main:login' %}"class="login-button">Login</a>
             <a href="{% url 'main:register' %}" class="register-button">Create an account</a>
         </div>
+        {% endif %}
     </div>
 </div>
 

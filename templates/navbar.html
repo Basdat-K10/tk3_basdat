@@ -1,5 +1,5 @@
 <div class="navbar">
-    {% if user.is_authenticated %}
+    {% if request.session.username %}
         <div class="navbar-left">
             <p class="brand" style="padding-left: 20px;">PACILFLIX</p>
             <a href="#">Movies and Series</a>
@@ -9,7 +9,7 @@
             <a href="#">Subscription</a>
         </div>
         <div class="navbar-right">
-            <p style="font-size: 14px; padding-right: 10px;">Hello, {{ user.username }}!</p>
+            <p style="font-size: 14px; padding-right: 10px;">Hello, {{ request.session.username }}!</p>
             <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
         </div>
     {% else %}
