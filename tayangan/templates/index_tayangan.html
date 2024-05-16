@@ -90,6 +90,10 @@
             text-decoration: none;
             color: white;
         }
+
+        a {
+            color: white;
+        }
     </style>
     <div class=" flex-container">
         <div>
@@ -98,7 +102,10 @@
         </div>
         
         <div class="center-content inline-search search_input">
-            <p>Search : <input type: "search"/></p>
+            <form action="{% url 'search' %}" method="get">
+                <p>Search : <input type="search" name="q"/></p>
+                <input type="submit" value="Search">
+            </form>
         </div>
     </div>
         <h1 class="center-content">Daftar Tayangan</h1>
@@ -120,7 +127,7 @@
                 <td class="outlined-column">{{ movie.rank }}</td>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">{{ movie.total_view }}</td>
                 <td class="outlined-column">
@@ -148,7 +155,7 @@
                 <tr>
                     <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                    <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                    <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                     <td class="outlined-column">{{ movie.release_date }}</td>
                     <td class="outlined-column">
                         <button class="detail_button">
@@ -175,7 +182,7 @@
             <tr>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column"><a>{{ movie.url|truncatechars:50 }}</a></td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">
                 <button class="detail_button">
