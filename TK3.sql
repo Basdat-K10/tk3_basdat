@@ -1,4 +1,9 @@
-SQL : 
+
+-- Schema
+CREATE SCHEMA PACILFLIX;
+
+SET SEARCH_PATH TO PACILFLIX;
+
 -- Pengguna
 CREATE TABLE PENGGUNA (
     username VARCHAR(50) PRIMARY KEY,
@@ -195,8 +200,7 @@ CREATE TABLE TAYANGAN_TERUNDUH (
     FOREIGN KEY (username) REFERENCES PENGGUNA(username)
 );
 
-INSERT : 
-
+-- INSERT
 INSERT INTO PENGGUNA VALUES ('SarahJohnson','J0hnson!Sarah','106ba113-3bf3-440d-8f4f-9fa2a5929d89','Indonesia'),
 	('MichaelSmith','Sm1th2024!','d9d422a0-6cc5-48dc-af5a-bcd4a47c561c','Amerika Serikat'),
 	('EmilyGarcia','Garcia#Em1ly','bb770fb0-bd0d-4a91-ab68-1efe8fcdc2af','Indonesia'),
