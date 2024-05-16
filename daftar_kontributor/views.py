@@ -4,7 +4,8 @@ from utils.query import query
 
 def show_contributors(request):
     # Ambil dari tiap tabel penulis, pemain dan sutradar, lalu disatukan, biar memunculkan overlapped tipe
-    contributors = query("""
+    contributors = query(
+    """
     SELECT
     CONTRIBUTORS.nama AS nama,
     'Penulis' AS tipe,
