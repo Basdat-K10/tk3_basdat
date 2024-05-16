@@ -8,7 +8,6 @@ SET SEARCH_PATH TO PACILFLIX;
 CREATE TABLE PENGGUNA (
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(50) NOT NULL,
-    id_tayangan UUID REFERENCES TAYANGAN(id),
 negara_asal VARCHAR(50) NOT NULL
 );
 
@@ -201,14 +200,14 @@ CREATE TABLE TAYANGAN_TERUNDUH (
 );
 
 -- INSERT
-INSERT INTO PENGGUNA VALUES ('SarahJohnson','J0hnson!Sarah','106ba113-3bf3-440d-8f4f-9fa2a5929d89','Indonesia'),
-	('MichaelSmith','Sm1th2024!','d9d422a0-6cc5-48dc-af5a-bcd4a47c561c','Amerika Serikat'),
-	('EmilyGarcia','Garcia#Em1ly','bb770fb0-bd0d-4a91-ab68-1efe8fcdc2af','Indonesia'),
-	('JamesNguyen','Nguy3nP@ssword','8ee5ba0f-194f-42db-b5b5-5297b4da290b','Indonesia'),
-	('SophiaMartinez','M@rtinez123!','5d2a09e7-5982-4ff8-98a5-4a43d7f197d9','Amerika Serikat'),
-	('DavidKim','K1m!David','e3d10264-d586-4852-b128-6f757c1667b4','Amerika Serikat'),
-	('OliviaLopez','L0pezPwd456','8ee5ba0f-194f-42db-b5b5-5297b4da290b','Jepang'),
-	('EthanPatel','P@telEthan007','405dc63e-0ea5-410f-93bb-6d41c130d82f','Jepang');
+INSERT INTO PENGGUNA VALUES ('SarahJohnson','J0hnson!Sarah','Indonesia'),
+	('MichaelSmith','Sm1th2024!','Amerika Serikat'),
+	('EmilyGarcia','Garcia#Em1ly','Indonesia'),
+	('JamesNguyen','Nguy3nP@ssword','Indonesia'),
+	('SophiaMartinez','M@rtinez123!','Amerika Serikat'),
+	('DavidKim','K1m!David','Amerika Serikat'),
+	('OliviaLopez','L0pezPwd456','Jepang'),
+	('EthanPatel','P@telEthan007','Jepang');
 
 INSERT INTO PAKET VALUES ('Basic',60000.0,'720p'),
 	('Standar',80000.0,'1080p'),

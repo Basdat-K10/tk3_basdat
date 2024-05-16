@@ -1,18 +1,20 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages  
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-import datetime
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
+from django.db import connection
+import datetime
 from .forms import CustomRegistrationForm
 
-# Create your views here.
+def execute_sql(query, params=None):
+    with connection.cursor() as cursor:
+        cursor.execute(query, params)
+        if query.strip().lower().startswith('select'):
+            return cursor.fetchall()
+        else:
+            return None
+        
 def show_main(request):
     return render(request, "main.html")
 
@@ -25,18 +27,14 @@ def register(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             negara_asal = form.cleaned_data['negara_asal']
-            
-            # Check if username already exists
-            if not User.objects.filter(username=username).exists():
-                user = User.objects.create(
-                    username=username,
-                    password=make_password(password) 
-                )
-                user.save()
+
+            try:
+                execute_sql("INSERT INTO pengguna (username, password, negara_asal) VALUES (%s, %s, %s)",
+                            [username, password, negara_asal])
                 messages.success(request, 'Your account has been successfully created!')
-                return redirect('main:login') #redirect ke daftar tayangan
-            else:
-                messages.error(request, 'Username already exists.')
+                return redirect('main:login')
+            except Exception as e:
+                messages.error(request, str(e))
 
     context = {'form': form}
     return render(request, 'register.html', context)
@@ -45,19 +43,24 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main")) 
+
+        user_record = execute_sql("SELECT * FROM pengguna WHERE username = %s AND password = %s", [username, password])
+
+        if user_record:
+            request.session['username'] = username
+            request.session['last_login'] = str(datetime.datetime.now())
+            
+            response = HttpResponseRedirect(reverse("main:show_main"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
             messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+
     context = {}
     return render(request, 'login.html', context)
 
 def logout_user(request):
-    logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
+    response = HttpResponseRedirect(reverse('main:show_main'))
     response.delete_cookie('last_login')
+    request.session.flush()
     return response
