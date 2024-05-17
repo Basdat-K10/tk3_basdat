@@ -163,10 +163,10 @@
         </thead>
         <tbody id="paket-dibeli-list">
             <tr>
-                    <td>Basic</td>
-                    <td>20000</td>
-                    <td>720p</td>
-                    <td>Handphone, TV</td>
+                <td>{{ request.GET.paket }}</td>
+                <td>{{ request.GET.harga }}</td>
+                <td>{{ request.GET.resolusi_layar }}</td>
+                <td>{{ request.GET.dukungan_perangkat }}</td>
             </tr>
         </tbody>
     </table>
@@ -178,22 +178,75 @@
     </h4> 
 </div>
 
+
 <div class="dropdown">
-    <button class="dropdown"> Metode Pembayaran</button>
+    <button class="dropdown-btn">Metode Pembayaran</button>
     <div class="dropdown-content">
-        <a href="#">Transfer Bank</a>
-        <a href="#">E Wallet</a>
-        <a href="#">Kartu Kredit</a>
+        <a href="#" onclick="selectOption('Transfer Bank')">Transfer Bank</a>
+        <a href="#" onclick="selectOption('E Wallet')">E Wallet</a>
+        <a href="#" onclick="selectOption('Kartu Kredit')">Kartu Kredit</a>
     </div>
 </div>
 
-<div style="margin-top: 80px;">
-    <button> Bayar </button>
-</div>
+<form id="paymentForm" method="post" action="/langganan/pembelian/beli/">
+    {% csrf_token %}
+    <input type="hidden" name="nama_paket" value="{{ request.GET.paket }}">
+    <input type="hidden" name="harga" value="{{ request.GET.harga }}">
+    <input type="hidden" name="resolusi_layar" value="{{ request.GET.resolusi_layar }}">
+    <input type="hidden" name="dukungan_perangkat" value="{{ request.GET.dukungan_perangkat }}">
+    <input type="hidden" id="metodePembayaranInput" name="metode_pembayaran" value="">
+    <button type="submit" id="btnBayar" disabled>Bayar</button>
+</form>
 
-<script>
-     
-</script>
+    <script>
+        function selectOption(option) {
+            var dropdownBtn = document.querySelector('.dropdown-btn');
+            dropdownBtn.textContent = option; // Set the button text to the selected option
+            var metodePembayaranInput = document.getElementById("metodePembayaranInput");
+            metodePembayaranInput.value = option;
+            document.getElementById("btnBayar").disabled = false;
+        }
+    
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        btnBayar.addEventListener('click', function() {
+        
+            metode_bayar = document.getElementById('metodePembayaranInput').value;
+            const namaPaket = document.querySelector('input[name="nama_paket"]').value;
+            const harga = document.querySelector('input[name="harga"]').value;
+            const resolusiLayar = document.querySelector('input[name="resolusi_layar"]').value;
+            const dukunganPerangkat = document.querySelector('input[name="dukungan_perangkat"]').value;
+
+            fetch('/langganan/pembelian/beli/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    nama_paket: namaPaket,
+                    harga: harga,
+                    resolusi_layar: resolusiLayar,
+                    dukungan_perangkat: dukunganPerangkat,
+                    metode_pembayaran: metode_bayar
+                })
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>
 

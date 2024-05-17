@@ -8,11 +8,10 @@ import os
 try:
     connection = psycopg2.connect(
         user=os.getenv("DB_USERNAME", "avnadmin"),
-        password=os.getenv("DB_PASSWORD","AVNS_ivRXzozyV6jfpn-JVxu"),
-        host= os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
+        password=os.getenv("DB_PASSWORD", "AVNS_ivRXzozyV6jfpn-JVxu"),
+        host=os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
         port=os.getenv("DB_PORT", "23774"),
-        database=os.getenv("DB_NAME", "defaultdb"),
-        )
+        database=os.getenv("DB_NAME", "defaultdb"))
 
     # Create a cursor to perform database operations
     connection.autocommit = True
