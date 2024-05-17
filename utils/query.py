@@ -41,6 +41,6 @@ def query(query_str: str, parameter: tuple = tuple()):
                 result = cursor.rowcount
                 connection.commit()
         except Exception as e:
-            result = e
+           raise e
 
     return result
