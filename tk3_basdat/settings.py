@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://web-production-9d36f.up.railway.app",
-    "localhost",
 ]
 # Application definition
 
