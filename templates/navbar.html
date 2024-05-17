@@ -2,7 +2,7 @@
     {% if request.session.username %}
         <div class="navbar-left">
             <p class="brand" style="padding-left: 20px;">PACILFLIX</p>
-            <a href="#">Movies and Series</a>
+            <a href="{% url 'tayangan:index_tayangan' %}">Movies and Series</a>
             <a href="#">Contributors</a>
             <a href="#">Favorites</a>
             <a href="#">Downloads</a>
@@ -15,7 +15,7 @@
     {% else %}
         <div class="navbar-left">
             <p class="brand" style="padding-left: 20px;">PACILFLIX</p>
-            <a href="#">Trailers</a>
+            <a href="{% url 'trailer:index_trailer' %}">Trailers</a>
         </div>
         <div class="navbar-right">
             <p style="padding-right: 15px;">Hello, Guest!</p>

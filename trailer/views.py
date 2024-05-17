@@ -11,23 +11,17 @@ import os
 # Create your views here.
 
 
-def index(request):
+def index_trailer(request):
     try : 
         movie_top = """
-            WITH episode_durations AS (
-            SELECT id_series,
-                SUM(durasi) AS total_durasi
-            FROM EPISODE
-            GROUP BY id_series
-        ),
-        viewer_count AS (
+            WITH viewer_count AS (
             SELECT rn.id_tayangan,
                 COUNT(*) AS total_view
             FROM RIWAYAT_NONTON AS rn
             LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
-            LEFT JOIN episode_durations AS ed ON rn.id_tayangan = ed.id_series
-            WHERE rn.end_date_time >= NOW() - INTERVAL '1 month'
-            AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, ed.total_durasi)
+            LEFT JOIN EPISODE AS e ON rn.id_tayangan = e.id_series
+            WHERE rn.end_date_time >= NOW() - INTERVAL '7 days'
+            AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, e.durasi)
             GROUP BY rn.id_tayangan
         ),
         ranked_viewers AS (
@@ -36,7 +30,8 @@ def index(request):
                 ROW_NUMBER() OVER (ORDER BY COALESCE(total_view, 0) DESC) AS rank
             FROM viewer_count
         )
-        SELECT 
+        SELECT
+        t.id as id,  
         t.judul AS title, 
         t.sinopsis_trailer AS synopsis, 
         t.url_video_trailer AS url,
