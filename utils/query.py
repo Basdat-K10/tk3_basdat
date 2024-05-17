@@ -12,7 +12,6 @@ try:
         host=os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
         port=os.getenv("DB_PORT", "23774"),
         database=os.getenv("DB_NAME", "defaultdb"))
-        )
 
     # Create a cursor to perform database operations
     connection.autocommit = True
