@@ -97,7 +97,7 @@ DATABASES = {
         "USER": os.getenv("DB_USERNAME", "avnadmin"),
         "PASSWORD": os.getenv("DB_PASSWORD","AVNS_ivRXzozyV6jfpn-JVxu"),
         "HOST": os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
-        "PORT": os.getenv("DB_PORT", "23774"),
+        "PORT": os.getenv("DB_PORT", "23774")
     }
 }
 
