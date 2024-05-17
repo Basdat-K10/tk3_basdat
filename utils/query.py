@@ -7,11 +7,12 @@ import os
 
 try:
     connection = psycopg2.connect(
-        user=os.getenv("DB_USERNAME", os.environ.get("user")),
-        password=os.getenv("DB_PASSWORD", os.environ.get("password")),
-        host=os.getenv("DB_HOST", "localhost"),
-        port=os.getenv("DB_PORT", "5432"),
-        database=os.getenv("DB_NAME", "postgres"))
+        user="postgres.aqmitcefzknbhvwgpdso",
+        password="admin_supabase10",
+        host="aws-0-ap-southeast-1.pooler.supabase.com",
+        port="5432",
+        database="postgres",
+        )
 
     # Create a cursor to perform database operations
     connection.autocommit = True

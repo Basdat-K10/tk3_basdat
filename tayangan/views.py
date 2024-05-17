@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
 from utils.query import query
 
 # Create your views here.
@@ -370,3 +370,36 @@ def tentukan_tayangan(request, id):
         print(e)
         return HttpResponse(e)
         
+def menonton_durasi(request, id_tayangan):
+    try:
+        if request.method == "POST":
+            
+            query_tayangan = f"""
+            SELECT
+                CASE
+                    WHEN EXISTS (SELECT 1 FROM FILM WHERE id_tayangan = '{id_tayangan}') THEN 'film'
+                    WHEN EXISTS (SELECT 1 FROM SERIES WHERE id_tayangan = '{id_tayangan}') THEN 'series'
+                    ELSE 'unknown'
+                END AS tayangan_type
+            """
+            response = query(query_tayangan)
+            tayangan_type = response[0]["tayangan_type"]
+            if tayangan_type == "film":
+                tayangan_type = "film"
+            elif tayangan_type == "series":
+                tayangan_type = "series/episode"
+            durasi_ditonton = request.GET.get("durasi")
+            print(durasi_ditonton)
+            username = "DavidKim"
+            start_date_time = "NOW()"
+            end_date_time = f"NOW() + INTERVAL '{durasi_ditonton} minutes"
+            query_menonton_durasi = f"""
+            INSERT INTO RIWAYAT_NONTON (start_date_time, end_date_time, id_tayangan, username)
+            VALUES ('{start_date_time}', '{end_date_time}', '{id_tayangan}', '{username}');
+            """
+            response_nonton = query(query_menonton_durasi)
+            print(response_nonton)
+            return redirect(f"/tayangan/{tayangan_type}/{id_tayangan}")
+        return redirect(f"/tayangan/{tayangan_type}/{id_tayangan}")
+    except Exception as e:
+        return HttpResponse(e)

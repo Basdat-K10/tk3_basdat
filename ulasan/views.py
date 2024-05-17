@@ -10,7 +10,9 @@ def index_ulasan(request, id_tayangan):
         query_ulasan = f"""
         SELECT username, rating, deskripsi 
         FROM ULASAN
-        WHERE id_tayangan = '{id_tayangan}';
+        WHERE id_tayangan = '{id_tayangan}'
+        ORDER BY timestamp DESC;
+        ;
         """
         print(request.GET.get("rate"))
         print(request.GET.get("ulasan"))
