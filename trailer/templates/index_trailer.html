@@ -57,7 +57,7 @@
         }
 
         th {
-            background-color: #B7A6D1;
+            background-color: white;
             color : #2523A0;
             
             
@@ -109,8 +109,8 @@
             
             <div class="center-content inline-search search_input">
                 <form action="{% url 'trailer:search' %}" method="get">
-                    <p>Search : <input type="search" name="q"/></p>
-                    <input type="submit" value="Search">
+                    <p>Search : <input type="search" name="q"/> <input class="button_up" type="submit" value="Search"> </p>
+                    
                 </form>
             </div>
         </div>

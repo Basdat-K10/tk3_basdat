@@ -32,6 +32,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://web-production-9d36f.up.railway.app",
     "http://localhost",
     "http://127.0.0.1:8000",
+    "https://pacilflix.up.railway.app",
 ]
 # Application definition
 
