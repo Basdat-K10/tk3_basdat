@@ -6,7 +6,7 @@ from utils.query import query
 def index(request):
     try : 
         movie_top = """
-       WITH viewer_count AS (
+        WITH viewer_count AS (
             SELECT rn.id_tayangan,
                 COUNT(*) AS total_view
             FROM RIWAYAT_NONTON AS rn
@@ -39,6 +39,38 @@ def index(request):
 
         """
         response = query(movie_top)
+
+        movie_global = """
+        WITH viewer_count AS (
+            SELECT rn.id_tayangan,
+                COUNT(*) AS total_view
+            FROM RIWAYAT_NONTON AS rn
+            LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
+            LEFT JOIN EPISODE AS e ON rn.id_tayangan = e.id_series
+            WHERE EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, e.durasi)
+            GROUP BY rn.id_tayangan
+        ),
+        ranked_viewers AS (
+            SELECT id_tayangan,
+                COALESCE(total_view, 0) AS total_view,
+                ROW_NUMBER() OVER (ORDER BY COALESCE(total_view, 0) DESC) AS rank
+            FROM viewer_count
+        )
+        SELECT
+        t.id as id,  
+        t.judul AS title, 
+        t.sinopsis_trailer AS synopsis, 
+        t.url_video_trailer AS url,
+        t.release_date_trailer AS release_date,
+        COALESCE(total_view, 0) as total_view,
+        CASE WHEN rv.total_view = 0 THEN ROW_NUMBER() OVER (ORDER BY t.judul)
+            ELSE rv.rank
+        END AS rank
+        FROM TAYANGAN AS t 
+        LEFT JOIN ranked_viewers AS rv ON t.id = rv.id_tayangan
+        ORDER BY rank
+        LIMIT 10;
+        """
         
         movie_film = """
         SELECT 
@@ -330,13 +362,14 @@ def search(request):
         t.judul AS title,
         t.sinopsis_trailer AS synopsis,
         t.url_video_trailer AS url,
-        t.release_date_trailer AS release_date
+        t.release_date_trailer AS release_date,
+        t.id AS id
         FROM TAYANGAN AS t
         WHERE t.judul ILIKE '%%{search_input}%%'
         """
         response = query(search_query)
         context = {
-            "search": response
+            "movies": response
         }
         return render(request, "search.html", context)
     except Exception as e:
