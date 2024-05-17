@@ -28,7 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-9d36f.up.railway.app",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,7 +47,9 @@ INSTALLED_APPS = [
     "daftar_favorit",
     "daftar_unduh",
     "daftar_kontributor",
-    "langganan"
+    "langganan",
+    "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +60,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "tk3_basdat.urls"
@@ -78,10 +83,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "tk3_basdat.wsgi.application"
 
-
+CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_HEADERS = True
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
