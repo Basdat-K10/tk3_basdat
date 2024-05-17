@@ -22,7 +22,7 @@
         <tr>
             <td class="outlined-column">{{ movie.title }}</td>
             <td class="outlined-column">{{ movie.synopsis }}</td>
-            <td class="outlined-column">{{ movie.url }}</td>
+            <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
             <td class="outlined-column">{{ movie.release_date }}</td>
             <td class="outlined-column"><a href="{% url 'detail' movie.id %}">Detail</a></td>
         </tr>

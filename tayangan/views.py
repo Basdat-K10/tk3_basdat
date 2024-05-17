@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
 from utils.query import query
 
 # Create your views here.
@@ -86,7 +86,8 @@ def detail_series(request, id):
         SELECT
             t.judul AS title,
             t.sinopsis AS sinopsis,
-            t.asal_negara AS asal_negara
+            t.asal_negara AS asal_negara,
+            t.id AS id
             FROM TAYANGAN AS t
         WHERE t.id = '{id}'
         """ 
@@ -169,17 +170,27 @@ def detail_series(request, id):
         if(len(response_total_view) == 0):
             response_total_view = [{"total_view": 0}]
 
+        rata_rating_query = f"""
+        SELECT ROUND(AVG(rating), 1) as rata_rating
+        FROM ULASAN
+        WHERE id_tayangan = '{id}'
+        """ 
+        response_rata_rating = query(rata_rating_query)
+        if(len(response_rata_rating) == 0):
+            response_rata_rating = [{"rata_rating": 0}]
+
         context = {
             "title" : response_normal[0]["title"],
             "episode" : response_episode,
             "total_view": response_total_view[0]["total_view"],
-            "rating_rata_rata": 9.3,
+            "rating_rata_rata": response_rata_rating[0]["rata_rating"],
             "sinopsis" : response_normal[0]["sinopsis"],
             "genre" : response_genre,
             "asal_negara": response_normal[0]["asal_negara"],
             "pemain": response_pemain,
             "penulis_skenario": response_penulis,
             "sutradara": response_sutradara,
+            "id_series": response_normal[0]["id"],
         }
         return render(request, "detail_series.html", context)
     except Exception as e:
@@ -194,10 +205,11 @@ def detail_film(request, id):
         f.durasi_film AS durasi_film,
         f.release_date_film AS tanggal_rilis_film,
         f.url_video_film AS url_film,
-        t.asal_negara AS asal_negara
+        t.asal_negara AS asal_negara,
+        t.id AS id
         FROM TAYANGAN as t
         JOIN FILM as f ON t.id = f.id_tayangan
-        WHERE t.id = '{id}'
+        WHERE t.id = '{id}';
         """
         
         response = query(query_judul_film)
@@ -237,11 +249,34 @@ def detail_film(request, id):
         WHERE t.id = '{id}'
         """
         response_sutradara = query(query_sutradara)
-        
+
+        total_view_query = f"""
+        SELECT rn.id_tayangan,
+        COUNT(*) AS total_view
+        FROM RIWAYAT_NONTON AS rn
+        LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
+        JOIN TAYANGAN AS t ON rn.id_tayangan = t.id
+        WHERE rn.end_date_time >= NOW() - INTERVAL '1 month' and t.id = '{id}'
+        AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, 0)
+        GROUP BY rn.id_tayangan;
+        """
+        response_total_view = query(total_view_query)
+        if(len(response_total_view) == 0):
+            response_total_view = [{"total_view": 0}]
+
+        rata_rating_query = f"""
+        SELECT ROUND(AVG(rating), 1) as rata_rating
+        FROM ULASAN
+        WHERE id_tayangan = '{id}'
+        """ 
+        response_rata_rating = query(rata_rating_query)
+        if(len(response_rata_rating) == 0):
+            response_rata_rating = [{"rata_rating": 0}]
+
         context = {
             "title" : response[0]["title"],
-            "total_view": 1000000,
-            "rating_rata_rata": 9.3,
+            "total_view": response_total_view[0]["total_view"],
+            "rating_rata_rata": response_rata_rating[0]["rata_rating"],
             "sinopsis" : response[0]["sinopsis"],
             "durasi_film": response[0]["durasi_film"],
             "tanggal_rilis_film": response[0]["tanggal_rilis_film"],
@@ -251,6 +286,7 @@ def detail_film(request, id):
             "pemain": response_pemain,
             "penulis_skenario": response_penulis,
             "sutradara": response_sutradara,
+            "id_film": response[0]["id"],
         }
         return render(request, "detail_film.html", context)
     except Exception as e:
@@ -291,7 +327,7 @@ def detail_episode(request, id_series, sub_judul):
         print(e)
 
 def search(request):
-    search_input = request.GET.get("search")
+    search_input = request.GET.get("q")
 
     try:
         search_query = f"""SELECT
@@ -334,3 +370,25 @@ def tentukan_tayangan(request, id):
         print(e)
         return HttpResponse(e)
         
+def menonton_durasi(request, id_tayangan):
+    try:
+        if request.method == "POST":
+            durasi_ditonton = request.POST.get("durasi")
+            print(durasi_ditonton)
+            username = request.session.get("username")
+            id_tayangan = id_tayangan  # Make sure to replace this with your actual logic to get `id_tayangan`
+
+            # Use a parameterized query to prevent SQL injection
+            query_menonton_durasi = """
+            INSERT INTO RIWAYAT_NONTON (start_date_time, end_date_time, id_tayangan, username)
+            VALUES (NOW(), NOW() + INTERVAL %s MINUTE, %s, %s);
+            """
+
+            # Execute the query with parameters
+            response_nonton = query(query_menonton_durasi, (durasi_ditonton, id_tayangan, username))
+            print(response_nonton)
+            return redirect("/tayangan/")
+
+        return redirect(f"/tayangan/")
+    except Exception as e:
+        return HttpResponse(e)

@@ -73,6 +73,10 @@
             margin-right: 30px;
         }
 
+        a {
+            color: white;
+        }
+
 
     </style>
         <div class=" flex-container">
@@ -106,7 +110,7 @@
                     <td class="outlined-column">{{ movie.rank }}</td>
                     <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                    <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                    <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                     <td class="outlined-column">{{ movie.release_date }}</td>
                     <td class="outlined-column">{{ movie.total_view }}</td>
                 </tr>
@@ -127,7 +131,7 @@
             <tr>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
             </tr>
             {% endfor %}
@@ -147,7 +151,7 @@
             <tr>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
             </tr>
             {% endfor %}

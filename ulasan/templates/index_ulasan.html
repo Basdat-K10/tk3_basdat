@@ -78,6 +78,45 @@
         padding: 10px;
         border:none;
     }
+
+    .ulasan-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .ulasan-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+    
+    .ulasan-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    
+    .ulasan-username {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: #010845;
+    }
+    
+    .ulasan-rating {
+        font-size: 1.1em;
+        color: #CC353A;
+    }
+    
+    .ulasan-deskripsi {
+        margin-top: 8px;
+        font-size: 0.9em;
+        line-height: 1.4;
+        color: #010845;
+    }
 </style>
 <div class="detail_division">
 
@@ -96,7 +135,7 @@
   {% endif %}
 </div>
     <div class="center-content inline-search">
-        <form method="POST" action="{% url 'create_ulasan' %}">
+        <form method="POST" action="{% url 'create_ulasan' id_tayangan %}">
             {% csrf_token %}
             <label for="rating">Rating:</label>
             <div class="rate">
@@ -118,11 +157,15 @@
     </div>
     <div>
         <h4>Daftar Ulasan</h4>
-        <ul>
+        <ul class="ulasan-list">
             {% for ulasan in daftar_ulasan %}
-            <li>{{ ulasan.username }}</li>
-            <li>{{ ulasan.rating }}</li>
-            <li>{{ ulasan.deskripsi }}</li>
+            <li class="ulasan-card">
+                <div class="ulasan-header">
+                    <span class="ulasan-username">{{ ulasan.username }}</span>
+                    <span class="ulasan-rating">{{ ulasan.rating }}</span>
+                </div>
+                <div class="ulasan-deskripsi">{{ ulasan.deskripsi }}</div>
+            </li>
             {% endfor %}
         </ul>
     </div>
