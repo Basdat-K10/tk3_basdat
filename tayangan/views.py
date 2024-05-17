@@ -375,7 +375,7 @@ def menonton_durasi(request, id_tayangan):
         if request.method == "POST":
             durasi_ditonton = request.POST.get("durasi")
             print(durasi_ditonton)
-            username = "DavidKim"
+            username = request.session.get("username")
             id_tayangan = id_tayangan  # Make sure to replace this with your actual logic to get `id_tayangan`
 
             # Use a parameterized query to prevent SQL injection
