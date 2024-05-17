@@ -6,20 +6,14 @@ from utils.query import query
 def index(request):
     try : 
         movie_top = """
-            WITH episode_durations AS (
-            SELECT id_series,
-                SUM(durasi) AS total_durasi
-            FROM EPISODE
-            GROUP BY id_series
-        ),
-        viewer_count AS (
+       WITH viewer_count AS (
             SELECT rn.id_tayangan,
                 COUNT(*) AS total_view
             FROM RIWAYAT_NONTON AS rn
             LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
-            LEFT JOIN episode_durations AS ed ON rn.id_tayangan = ed.id_series
-            WHERE rn.end_date_time >= NOW() - INTERVAL '1 month'
-            AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, ed.total_durasi)
+            LEFT JOIN EPISODE AS e ON rn.id_tayangan = e.id_series
+            WHERE rn.end_date_time >= NOW() - INTERVAL '7 days'
+            AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, e.durasi)
             GROUP BY rn.id_tayangan
         ),
         ranked_viewers AS (
@@ -42,6 +36,7 @@ def index(request):
         LEFT JOIN ranked_viewers AS rv ON t.id = rv.id_tayangan
         ORDER BY rank
         LIMIT 10;
+
         """
         response = query(movie_top)
         
@@ -162,7 +157,7 @@ def detail_series(request, id):
             LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
             LEFT JOIN episode_durations AS ed ON rn.id_tayangan = ed.id_series
             JOIN TAYANGAN AS t ON rn.id_tayangan = t.id
-            WHERE rn.end_date_time >= NOW() - INTERVAL '1 month' and t.id = '{id}'
+            WHERE t.id = '{id}'
             AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, ed.total_durasi)
             GROUP BY rn.id_tayangan
         """
@@ -256,7 +251,7 @@ def detail_film(request, id):
         FROM RIWAYAT_NONTON AS rn
         LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
         JOIN TAYANGAN AS t ON rn.id_tayangan = t.id
-        WHERE rn.end_date_time >= NOW() - INTERVAL '1 month' and t.id = '{id}'
+        WHERE t.id = '{id}'
         AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, 0)
         GROUP BY rn.id_tayangan;
         """
@@ -321,6 +316,7 @@ def detail_episode(request, id_series, sub_judul):
             "durasi_episode": response_sub_judul[0]['durasi_episode'],
             "url_episode": response_sub_judul[0]['url_episode'],
             "tanggal_rilis_episode": response_sub_judul[0]['tanggal_rilis_episode'],
+            "id_series": id_series,
         }
         return render(request, "detail_episode.html", context)
     except Exception as e:
