@@ -6,6 +6,28 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
     {% endblock meta %}
     <style>
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        #tayangan {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .outlined-column {
+            padding: 10px;
+            margin: 10px;
+        }
+        
+        .inline-search p {
+            margin: 0;
+            padding: 0;
+        }
+                
         body {
             background: linear-gradient(to bottom, #2F338A, #010845);
             color: white;
@@ -97,7 +119,7 @@
     <div class=" flex-container">
         <div>
             <a href="#" class=" button_up">Top 10 Global</a>
-            <a href="#" class=" button_up">Top 10 Negara Pengguna</a>
+            <a href="#" class=" button_up">Top 10 Tayangan Terbaik</a>
         </div>
         
         <div class="center-content inline-search search_input">

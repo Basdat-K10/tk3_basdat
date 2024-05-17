@@ -5,6 +5,29 @@
 <title>Hasil Pencarian</title>
 <link rel="stylesheet" href="{% static 'style.css' %}">
 {% endblock meta %}
+<style>
+    .center-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    #tayangan {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .outlined-column {
+        padding: 10px;
+        margin: 10px;
+    }
+    
+    .inline-search p {
+        margin: 0;
+        padding: 0;
+    }    
+</style>
 <body>
     <h1 class="center-content">Hasil Pencarian</h1>
     <div class="center-content inline-search">
