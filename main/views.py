@@ -22,12 +22,11 @@ def register(request):
             negara_asal = form.cleaned_data['negara_asal']
 
             try:
-                query("INSERT INTO pengguna (username, password, negara_asal) VALUES (%s, %s, %s)",
-                            [username, password, negara_asal])
+                query("INSERT INTO pengguna (username, password, negara_asal) VALUES (%s, %s, %s)", (username, password, negara_asal))
                 messages.success(request, 'Your account has been successfully created!')
                 return redirect('main:login')
             except Exception as e:
-                messages.error(request, str(e))
+                messages.error(request, 'Register Failed: ' + str(e))
 
     context = {'form': form}
     return render(request, 'register.html', context)
