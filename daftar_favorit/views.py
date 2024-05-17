@@ -24,14 +24,15 @@ def delete_daftar_favorit(request, timestamp, username):
 def detail_daftar_favorit(request, judul):
     logged_in_user = request.session["username"]
     q = '''
-    SELECT t.id, t.judul
-    FROM tayangan t
-    JOIN tayangan_memiliki_daftar_favorit tf ON t.id = tf.id_tayangan
-    JOIN daftar_favorit df on tf.timestamp = df.timestamp AND tf.username = df.username
-    WHERE tf.username = %s AND t.judul = %s
+    SELECT t.id, t.judul, df.judul
+    FROM PACILFLIX.tayangan t
+    JOIN PACILFLIX.tayangan_memiliki_daftar_favorit tf ON t.id = tf.id_tayangan
+    JOIN PACILFLIX.daftar_favorit df on tf.timestamp = df.timestamp AND tf.username = df.username
+    WHERE tf.username = %s AND df.judul = %s
     '''
-    isi_daftar_favorit = query(q, [logged_in_user][judul])
-    return render(request, 'detail_daftar_favorit.html', {'isi_daftar_favorit': isi_daftar_favorit})
+    detail_daftar_favorit = query(q, [logged_in_user, judul])
+    print(detail_daftar_favorit)
+    return render(request, 'detail_daftar_favorit.html', context = {'detail_daftar_favorit': detail_daftar_favorit})
 
 def delete_tayangan_daftar_favorit(request, id_tayangan, timestamp, username):
     q = 'DELETE FROM tayangan_memiliki_daftar_favorit WHERE id_tayangan = %s AND timestamp = %s AND username = %s'

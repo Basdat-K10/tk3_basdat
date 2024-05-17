@@ -10,7 +10,7 @@ from .views import (
 urlpatterns = [
     path('', list_daftar_favorit, name='list_daftar_favorit'),
     path('detail_daftar_favorit', show_detail_daftar_favorit, name='detail_daftar_favorit'),
-    path('daftar/delete/<str:timestamp>/<str:username>/', delete_daftar_favorit, name='delete_daftar_favorit'),
+    path('daftar-favorit/delete/<str:timestamp>/<str:username>/', delete_daftar_favorit, name='delete_daftar_favorit'),
     path('daftar_favorit/<str:timestamp>/<str:username>/', detail_daftar_favorit, name='list_isi_daftar_favorit'),
     path('daftar_favorit/delete/<uuid:id_tayangan>/<str:timestamp>/<str:username>/', delete_tayangan_daftar_favorit, name='delete_isi_daftar_favorit'),
 ]
