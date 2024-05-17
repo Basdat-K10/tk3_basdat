@@ -6,14 +6,7 @@ from django.urls import reverse
 from django.db import connection
 import datetime
 from .forms import CustomRegistrationForm
-
-def execute_sql(query, params=None):
-    with connection.cursor() as cursor:
-        cursor.execute(query, params)
-        if query.strip().lower().startswith('select'):
-            return cursor.fetchall()
-        else:
-            return None
+from utils.query import query
         
 def show_main(request):
     return render(request, "main.html")
@@ -29,7 +22,7 @@ def register(request):
             negara_asal = form.cleaned_data['negara_asal']
 
             try:
-                execute_sql("INSERT INTO pengguna (username, password, negara_asal) VALUES (%s, %s, %s)",
+                query("INSERT INTO pengguna (username, password, negara_asal) VALUES (%s, %s, %s)",
                             [username, password, negara_asal])
                 messages.success(request, 'Your account has been successfully created!')
                 return redirect('main:login')
@@ -44,7 +37,7 @@ def login_user(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user_record = execute_sql("SELECT * FROM pengguna WHERE username = %s AND password = %s", [username, password])
+        user_record = query("SELECT * FROM pengguna WHERE username = %s AND password = %s", [username, password])
 
         if user_record:
             request.session['username'] = username
