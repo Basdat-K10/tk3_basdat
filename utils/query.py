@@ -5,6 +5,7 @@ from psycopg2 import Error
 from psycopg2.extras import RealDictCursor
 import os
 
+
 try:
     connection = psycopg2.connect(
         user="postgres.aqmitcefzknbhvwgpdso",
@@ -13,7 +14,6 @@ try:
         port="5432",
         database="postgres",
         )
-
     # Create a cursor to perform database operations
     connection.autocommit = True
     cursor = connection.cursor()

@@ -2,6 +2,7 @@
 env/
 .env/
 .env
+another_env/
 
 # cache
 __pycache__

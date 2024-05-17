@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,11 +80,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "tk3_basdat.wsgi.application"
 
-
+DATABASE_URL = "postgresql://neondb_owner:jPytCo5XEYh0@ep-frosty-recipe-a5se3qwp.us-east-2.aws.neon.tech/neondb?sslmode=require"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
-    'default': {
+     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "postgres",
         "USER": "postgres.aqmitcefzknbhvwgpdso",
