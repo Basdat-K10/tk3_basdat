@@ -7,8 +7,8 @@ def show_user_paket(request):
         print("Username not found in session")
         return redirect('/main/login/')
      
-    username = "SarahJohnson" # JANGAN LUPA DIGANTI
-    print('username')
+    username = request.session["username"]
+    print(username)
     user_paket = query("""
         SELECT 
             t.nama_paket,
@@ -79,10 +79,46 @@ def show_user_paket(request):
     context = {"user_paket": user_paket[0] if user_paket else None, "all_paket":all_paket, "transaction_history":transaction_history}
     return render(request, "langganan.html", context)
 
-def show_paket(request):
-    context = {}
-    return render(request, "langganan.html", context)
 
 def show_beli(request):
     context = {}
     return render(request, "pembelian.html", context)
+
+def beli(request):
+
+    nama_paket = request.POST.get('nama_paket')
+    harga = request.POST.get('harga')
+    resolusi_layar = request.POST.get('resolusi_layar')
+    dukungan_perangkat = request.POST.get('dukungan_perangkat')
+    metode_pembayaran = request.POST.get('metode_pembayaran')
+    username = request.session["username"]
+    
+    subscription_check = query("""
+        SELECT EXISTS (
+            SELECT 1 FROM TRANSACTION
+            WHERE username = %s
+            AND DATE(timestamp_pembayaran) = CURRENT_DATE
+        ) AS transaction_exists;
+                              """, [username])
+    
+    subscription_exist = subscription_check[0]['transaction_exists']
+    message = ""
+    if not subscription_exist:
+        query(f"""
+              INSERT INTO TRANSACTION (username, start_date_time, end_date_time, nama_paket, metode_pembayaran, timestamp_pembayaran) 
+                 VALUES ('{username}', CURRENT_DATE, CURRENT_DATE + INTERVAL '1 month', '{nama_paket}', '{metode_pembayaran}', CURRENT_TIMESTAMP);
+            """)
+        message = "Transaksi Berhasil"
+        print(message)
+    else:
+        message = "Transaksi gagal"
+        print(message)
+    print(nama_paket)
+    print(harga)
+    print(resolusi_layar)
+    print(dukungan_perangkat)
+    print(metode_pembayaran)
+    print(subscription_exist)
+
+    context = {"message":message}
+    return render(request, "beli.html", context)
