@@ -29,7 +29,7 @@ def index_ulasan(request, id_tayangan):
 def create_ulasan(request, id_tayangan_sekarang):
     try:
         if request.method == "POST":
-            username = "DavidKim"
+            username = request.session.get("username")
             rating = request.POST.get("rate")
             if(rating == None or rating == ""):
                 rating = 0
