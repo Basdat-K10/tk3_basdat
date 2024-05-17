@@ -362,13 +362,14 @@ def search(request):
         t.judul AS title,
         t.sinopsis_trailer AS synopsis,
         t.url_video_trailer AS url,
-        t.release_date_trailer AS release_date
+        t.release_date_trailer AS release_date,
+        t.id AS id
         FROM TAYANGAN AS t
         WHERE t.judul ILIKE '%%{search_input}%%'
         """
         response = query(search_query)
         context = {
-            "search": response
+            "movies": response
         }
         return render(request, "search.html", context)
     except Exception as e:
