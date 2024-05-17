@@ -27,6 +27,8 @@ def show_user_paket(request):
             dukungan_perangkat AS dp ON p.nama = dp.nama_paket 
         WHERE 
             t.username = %s
+            AND t.nama_paket IS NOT NULL
+            AND t.end_date_time > CURRENT_DATE
         GROUP BY
             t.nama_paket,
             t.start_date_time,
