@@ -7,11 +7,11 @@ import os
 
 try:
     connection = psycopg2.connect(
-        user="postgres.aqmitcefzknbhvwgpdso",
-        password="admin_supabase10",
-        host="aws-0-ap-southeast-1.pooler.supabase.com",
-        port="5432",
-        database="postgres",
+        user=os.getenv("DB_USERNAME", "avnadmin"),
+        password=os.getenv("DB_PASSWORD","AVNS_ivRXzozyV6jfpn-JVxu"),
+        host= os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
+        port=os.getenv("DB_PORT", "23774"),
+        database=os.getenv("DB_NAME", "defaultdb"),
         )
 
     # Create a cursor to perform database operations

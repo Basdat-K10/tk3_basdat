@@ -84,11 +84,11 @@ WSGI_APPLICATION = "tk3_basdat.wsgi.application"
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "postgres",
-        "USER": "postgres.aqmitcefzknbhvwgpdso",
-        "PASSWORD": "admin_supabase10",
-        "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
-        "PORT": "5432",
+        "NAME": os.getenv("DB_NAME", "defaultdb"),
+        "USER": os.getenv("DB_USERNAME", "avnadmin"),
+        "PASSWORD": os.getenv("DB_PASSWORD","AVNS_ivRXzozyV6jfpn-JVxu"),
+        "HOST": os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
+        "PORT": os.getenv("DB_PORT", "23774"),
     }
 }
 

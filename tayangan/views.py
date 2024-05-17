@@ -373,33 +373,22 @@ def tentukan_tayangan(request, id):
 def menonton_durasi(request, id_tayangan):
     try:
         if request.method == "POST":
-            
-            query_tayangan = f"""
-            SELECT
-                CASE
-                    WHEN EXISTS (SELECT 1 FROM FILM WHERE id_tayangan = '{id_tayangan}') THEN 'film'
-                    WHEN EXISTS (SELECT 1 FROM SERIES WHERE id_tayangan = '{id_tayangan}') THEN 'series'
-                    ELSE 'unknown'
-                END AS tayangan_type
-            """
-            response = query(query_tayangan)
-            tayangan_type = response[0]["tayangan_type"]
-            if tayangan_type == "film":
-                tayangan_type = "film"
-            elif tayangan_type == "series":
-                tayangan_type = "series/episode"
-            durasi_ditonton = request.GET.get("durasi")
+            durasi_ditonton = request.POST.get("durasi")
             print(durasi_ditonton)
             username = "DavidKim"
-            start_date_time = "NOW()"
-            end_date_time = f"NOW() + INTERVAL '{durasi_ditonton} minutes"
-            query_menonton_durasi = f"""
+            id_tayangan = id_tayangan  # Make sure to replace this with your actual logic to get `id_tayangan`
+
+            # Use a parameterized query to prevent SQL injection
+            query_menonton_durasi = """
             INSERT INTO RIWAYAT_NONTON (start_date_time, end_date_time, id_tayangan, username)
-            VALUES ('{start_date_time}', '{end_date_time}', '{id_tayangan}', '{username}');
+            VALUES (NOW(), NOW() + INTERVAL %s MINUTE, %s, %s);
             """
-            response_nonton = query(query_menonton_durasi)
+
+            # Execute the query with parameters
+            response_nonton = query(query_menonton_durasi, (durasi_ditonton, id_tayangan, username))
             print(response_nonton)
-            return redirect(f"/tayangan/{tayangan_type}/{id_tayangan}")
-        return redirect(f"/tayangan/{tayangan_type}/{id_tayangan}")
+            return redirect("/tayangan/")
+
+        return redirect(f"/tayangan/")
     except Exception as e:
         return HttpResponse(e)
