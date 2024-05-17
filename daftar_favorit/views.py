@@ -4,44 +4,36 @@ from utils.query import query
 def show_daftar_favorit(request):
     return render(request, "daftar_favorit.html")
 
-def show_daftar(request):
-    return render(request, "daftar.html")
+def show_detail_daftar_favorit(request):
+    return render(request, "detail_daftar_favorit.html")
 
 # READ list daftar favorit
 def list_daftar_favorit(request):
     logged_in_user = request.session["username"]
     q = 'SELECT timestamp, username, judul FROM daftar_favorit WHERE username = %s'
     daftar_favorit = query(q, [logged_in_user])
-    print(logged_in_user)
-    return render(request, 'daftar.html', {'daftar_favorit': daftar_favorit})
+    return render(request, 'daftar_favorit.html', {'daftar_favorit': daftar_favorit})
 
 # DELETE list daftar favorit
-def delete_daftar_favorit(timestamp, username):
+def delete_daftar_favorit(request, timestamp, username):
     q = 'DELETE FROM daftar_favorit WHERE timestamp = %s AND username = %s'
     query(q, [timestamp, username])
     return redirect('list_daftar_favorit')
 
 # READ isi daftar favorit (judul tayangan)
-def list_isi_daftar_favorit(request):
+def detail_daftar_favorit(request, judul):
     logged_in_user = request.session["username"]
     q = '''
-    SELECT 
-        tm.id_tayangan,
-        df.judul,
-    FROM 
-        TAYANGAN_MEMILIKI_DAFTAR_FAVORIT tm
-    JOIN 
-        DAFTAR_FAVORIT ON tm.username = df.username
-    JOIN 
-        PENGGUNA p ON df.username = p.username
-    WHERE 
-        p.username = %s;
+    SELECT t.id, t.judul
+    FROM tayangan t
+    JOIN tayangan_memiliki_daftar_favorit tf ON t.id = tf.id_tayangan
+    JOIN daftar_favorit df on tf.timestamp = df.timestamp AND tf.username = df.username
+    WHERE tf.username = %s AND t.judul = %s
     '''
-    isi_daftar_favorit = query(q, [logged_in_user])
-    return render(request, 'daftar_favorit.html', {'isi_daftar_favorit': isi_daftar_favorit})
+    isi_daftar_favorit = query(q, [logged_in_user][judul])
+    return render(request, 'detail_daftar_favorit.html', {'isi_daftar_favorit': isi_daftar_favorit})
 
-# DELETE isi daftar favorit
-def delete_isi_daftar_favorit(id_tayangan, timestamp, username):
+def delete_tayangan_daftar_favorit(request, id_tayangan, timestamp, username):
     q = 'DELETE FROM tayangan_memiliki_daftar_favorit WHERE id_tayangan = %s AND timestamp = %s AND username = %s'
     query(q, [id_tayangan, timestamp, username])
     return redirect('list_isi_daftar_favorit', timestamp=timestamp, username=username)

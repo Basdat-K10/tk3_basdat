@@ -36,9 +36,6 @@
             padding: 12px; 
             text-align: left;
         }
-        td:nth-child(3) {
-            text-align: right;
-        }
         th {
             background-color: #baa5d4;
             color: #010845;
@@ -57,7 +54,7 @@
         tbody {
             padding: 10px; 
         }
-        td:nth-child(2) {
+        td:nth-child(2), th:nth-child(2) {
             text-align: center;
         }
         h1 {
@@ -79,60 +76,30 @@
     <h3>
         Watch offline. Anywhere. Anytime.
     </h3>
-<div class="container">
-    <table>
-        <thead>
-            <tr>
-                <th>Judul</th>
-                <th style="text-align: center">Waktu Diunduh</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="download-list">
-            <!-- Data favorit dimasukkan di sini -->
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Judul Tayangan</th>
+                    <th class="dateadded">Date Added</th>
+                    <th class="action">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in daftar_unduh %}
+                    <tr>
+                        <td class="col">{{ item.judul }}</td>
+                        <td class="col">{{ item.timestamp }}</td>
+                        <td>
+                            <div class="button">
+                                <a class="delete-btn">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
         </tbody>
     </table>
 </div>
-
-<script>
-    // Contoh data favorit
-    const downloadData = [
-        { title: "Unduhan 1", addedAt: "2024-05-01 10:00:00" },
-        { title: "Unduhan 2", addedAt: "2024-05-02 12:00:00" },
-        { title: "Unduhan 3", addedAt: "2024-05-03 14:00:00" }
-    ];
-
-    // Fungsi untuk memuat daftar favorit
-    function loadFavoriteList() {
-    const favoriteList = document.getElementById('download-list');
-    favoriteList.innerHTML = ''; 
-
-    downloadData.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.title}</td>
-            <td>${item.addedAt}</td>
-            <td><button class="delete-btn" onclick="deleteItem('${item.title}')">Hapus</button></td>
-        `;
-        favoriteList.appendChild(row);
-    });
-    }
-
-    // Fungsi untuk menghapus item dari daftar unduh
-    function deleteItem(title) {
-        const index = downloadData.findIndex(item => item.title === title);
-        if (index !== -1) {
-            downloadData.splice(index, 1);
-            loadFavoriteList(); 
-        }
-    }
-
-    // Memanggil fungsi untuk memuat daftar unduh saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', function() {
-        loadFavoriteList();
-    });
-
-</script>
 </body>
 </html>
 

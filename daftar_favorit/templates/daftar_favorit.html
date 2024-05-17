@@ -31,14 +31,23 @@
             margin-top: 1px;
             color: white;
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
+        td:nth-child(2){
+            text-align: center;
         }
-        td:nth-child(2) {
+        .dateadded{
+            text-align: center;
+        }
+        .action{
             text-align: right;
         }
-        th {
+        th, td {
+            padding: 12px; 
+            text-align: left;
+        }
+        td:nth-child(3) {
+            text-align: right;
+        }
+        th{
             background-color: #baa5d4;
             color: #010845;
         }
@@ -53,37 +62,55 @@
             border-radius: 4px;
             cursor: pointer;
         }
+        .view-btn {
+            background-color: #baa5d4;
+            color: #010845;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            align-items: right;
+            margin-right: 0.3rem;
+        }
         tbody {
-            padding: 10px;
+            padding: 10px; 
         }
         h1 {
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
             padding-top: 2rem;
         }
+        h3 {
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 <div>
-    <h1>Daftar Favorit 1</h1>
+    <h1>Your Favorite Lists</h1> 
+    <h3>Your Curated Collection: Favorites Simplified.</h3>
 </div>
 <div class="container">
     <table>
         <thead>
             <tr>
-                <th>Judul Tayangan</th>
-                <th></th>
+                <th>List Name</th>
+                <th class="dateadded">Date Added</th>
+                <th class="action">Actions</th>
             </tr>
         </thead>
-        <tbody id="favorite-list">
-            {% for tayangan in isi_daftar_favorit %}
+        <tbody>
+            {% for item in daftar_favorit %}
                 <tr>
-                    <td>{{ tayangan.judul }}</td>
+                    <td class="col">{{ item.judul }}</td>
+                    <td class="col">{{ item.timestamp }}</td>
                     <td>
-                        <form method="post" action="{% url 'delete_isi_daftar_favorit' tayangan.id timestamp username %}">
-                            {% csrf_token %}
-                            <button type="submit" class="delete-btn">Delete</button>
-                        </form>
+                        <div class="button">
+                            <a href="{% url 'detail_daftar_favorit' %}"class="view-btn">View</a>
+                            <a class="delete-btn">Delete</a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
@@ -92,5 +119,4 @@
 </div>
 </body>
 </html>
-
 {% endblock content %}
