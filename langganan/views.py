@@ -5,7 +5,7 @@ from utils.query import query
 def show_user_paket(request):
     if "username" not in request.session:
         print("Username not found in session")
-        return redirect('/main/login/')
+        return redirect('/login/')
      
     username = request.session["username"]
     print(username)
