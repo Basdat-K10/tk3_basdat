@@ -42,7 +42,7 @@ def login_user(request):
             request.session['username'] = username
             request.session['last_login'] = str(datetime.datetime.now())
             
-            response = HttpResponseRedirect(reverse("main:show_main"))
+            response = HttpResponseRedirect(reverse("tayangan:index_tayangan"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
