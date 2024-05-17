@@ -6,20 +6,48 @@ from utils.query import query
 def index(request):
     try : 
         movie_top = """
-            WITH episode_durations AS (
-            SELECT id_series,
-                SUM(durasi) AS total_durasi
-            FROM EPISODE
-            GROUP BY id_series
-        ),
-        viewer_count AS (
+        WITH viewer_count AS (
             SELECT rn.id_tayangan,
                 COUNT(*) AS total_view
             FROM RIWAYAT_NONTON AS rn
             LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
-            LEFT JOIN episode_durations AS ed ON rn.id_tayangan = ed.id_series
-            WHERE rn.end_date_time >= NOW() - INTERVAL '1 month'
-            AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, ed.total_durasi)
+            LEFT JOIN EPISODE AS e ON rn.id_tayangan = e.id_series
+            WHERE rn.end_date_time >= NOW() - INTERVAL '7 days'
+            AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, e.durasi)
+            GROUP BY rn.id_tayangan
+        ),
+        ranked_viewers AS (
+            SELECT id_tayangan,
+                COALESCE(total_view, 0) AS total_view,
+                ROW_NUMBER() OVER (ORDER BY COALESCE(total_view, 0) DESC) AS rank
+            FROM viewer_count
+        )
+        SELECT
+        t.id as id,  
+        t.judul AS title, 
+        t.sinopsis_trailer AS synopsis, 
+        t.url_video_trailer AS url,
+        t.release_date_trailer AS release_date,
+        COALESCE(total_view, 0) as total_view,
+        CASE WHEN rv.total_view = 0 THEN ROW_NUMBER() OVER (ORDER BY t.judul)
+            ELSE rv.rank
+        END AS rank
+        FROM TAYANGAN AS t 
+        LEFT JOIN ranked_viewers AS rv ON t.id = rv.id_tayangan
+        ORDER BY rank
+        LIMIT 10;
+
+        """
+        response = query(movie_top)
+
+        movie_global = """
+        WITH viewer_count AS (
+            SELECT rn.id_tayangan,
+                COUNT(*) AS total_view
+            FROM RIWAYAT_NONTON AS rn
+            LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
+            LEFT JOIN EPISODE AS e ON rn.id_tayangan = e.id_series
+            WHERE EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, e.durasi)
             GROUP BY rn.id_tayangan
         ),
         ranked_viewers AS (
@@ -43,7 +71,6 @@ def index(request):
         ORDER BY rank
         LIMIT 10;
         """
-        response = query(movie_top)
         
         movie_film = """
         SELECT 
@@ -162,7 +189,7 @@ def detail_series(request, id):
             LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
             LEFT JOIN episode_durations AS ed ON rn.id_tayangan = ed.id_series
             JOIN TAYANGAN AS t ON rn.id_tayangan = t.id
-            WHERE rn.end_date_time >= NOW() - INTERVAL '1 month' and t.id = '{id}'
+            WHERE t.id = '{id}'
             AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, ed.total_durasi)
             GROUP BY rn.id_tayangan
         """
@@ -256,7 +283,7 @@ def detail_film(request, id):
         FROM RIWAYAT_NONTON AS rn
         LEFT JOIN FILM AS f ON rn.id_tayangan = f.id_tayangan
         JOIN TAYANGAN AS t ON rn.id_tayangan = t.id
-        WHERE rn.end_date_time >= NOW() - INTERVAL '1 month' and t.id = '{id}'
+        WHERE t.id = '{id}'
         AND EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 >= 0.7 * COALESCE(f.durasi_film, 0)
         GROUP BY rn.id_tayangan;
         """
@@ -321,6 +348,7 @@ def detail_episode(request, id_series, sub_judul):
             "durasi_episode": response_sub_judul[0]['durasi_episode'],
             "url_episode": response_sub_judul[0]['url_episode'],
             "tanggal_rilis_episode": response_sub_judul[0]['tanggal_rilis_episode'],
+            "id_series": id_series,
         }
         return render(request, "detail_episode.html", context)
     except Exception as e:
@@ -334,13 +362,14 @@ def search(request):
         t.judul AS title,
         t.sinopsis_trailer AS synopsis,
         t.url_video_trailer AS url,
-        t.release_date_trailer AS release_date
+        t.release_date_trailer AS release_date,
+        t.id AS id
         FROM TAYANGAN AS t
         WHERE t.judul ILIKE '%%{search_input}%%'
         """
         response = query(search_query)
         context = {
-            "search": response
+            "movies": response
         }
         return render(request, "search.html", context)
     except Exception as e:

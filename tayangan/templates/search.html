@@ -5,6 +5,51 @@
 <title>Hasil Pencarian</title>
 <link rel="stylesheet" href="{% static 'style.css' %}">
 {% endblock meta %}
+<style>
+    .center-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    #tayangan {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .outlined-column {
+        padding: 10px;
+        margin: 10px;
+    }
+    
+    .inline-search p {
+        margin: 0;
+        padding: 0;
+    }    
+
+    body {
+        background: linear-gradient(to bottom, #2F338A, #010845);
+        color: white;
+    }
+
+    table {
+        
+        border-spacing: 0px 5px;
+        color: white;
+        margin: 40px;
+        
+    }
+
+    th {
+        background-color: #3162e9;
+    }
+
+    a {
+        color: white;
+    
+    }
+</style>
 <body>
     <h1 class="center-content">Hasil Pencarian</h1>
     <div class="center-content inline-search">
@@ -24,7 +69,7 @@
             <td class="outlined-column">{{ movie.synopsis }}</td>
             <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
             <td class="outlined-column">{{ movie.release_date }}</td>
-            <td class="outlined-column"><a href="{% url 'detail' movie.id %}">Detail</a></td>
+            <td class="outlined-column"><a href="{% url 'tayangan:top' movie.id %}">Detail</a></td>
         </tr>
         {% endfor %}
     </table>

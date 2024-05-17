@@ -76,17 +76,39 @@
         a {
             color: white;
         }
-
+        
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        #tayangan {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .outlined-column {
+            padding: 10px;
+            margin: 10px;
+        }
+        
+        .inline-search p {
+            margin: 0;
+            padding: 0;
+        }
+                
 
     </style>
         <div class=" flex-container">
             <div>
                 <a href="#" class="button_up">Top 10 Global</a>
-                <a href="#" class="button_up">Top 10 Negara Pengguna</a>
+                <a href="#" class="button_up">Top 10 Tayangan Terbaik</a>
             </div>
             
             <div class="center-content inline-search search_input">
-                <form action="{% url 'search' %}" method="get">
+                <form action="{% url 'trailer:search' %}" method="get">
                     <p>Search : <input type="search" name="q"/></p>
                     <input type="submit" value="Search">
                 </form>
