@@ -135,7 +135,7 @@
   {% endif %}
 </div>
     <div class="center-content inline-search">
-        <form method="POST" action="{% url 'create_ulasan' id_tayangan %}">
+        <form method="POST" action="{% url 'ulasan:create_ulasan' id_tayangan %}">
             {% csrf_token %}
             <label for="rating">Rating:</label>
             <div class="rate">
