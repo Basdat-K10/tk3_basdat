@@ -50,6 +50,7 @@
             padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
+            text-decoration: none;
         }
         tbody {
             padding: 10px; 
@@ -92,8 +93,7 @@
                         <td class="col">{{ item.timestamp }}</td>
                         <td>
                             <div class="button">
-                                <a class="delete-btn">Delete</a>
-                                <a href="{% url 'delete_daftar_favorit' item.timestamp item.username %}" class="delete-btn">Delete</a>
+                                <a href="/daftar_unduh/delete_tayangan/{{ item.id }}" class="delete-btn">Delete</a>
                             </div>
                         </td>
                     </tr>
