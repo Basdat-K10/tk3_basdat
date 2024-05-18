@@ -3,10 +3,10 @@
         <div class="navbar-left">
             <a href="{% url 'main:show_main' %}" class="brand" style="padding-left: 20px;">PACILFLIX</a>
             <a href="{% url 'tayangan:index_tayangan' %}">Movies and Series</a>
-            <a href="#">Contributors</a>
-            <a href="#">Favorites</a>
-            <a href="#">Downloads</a>
-            <a href="#">Subscription</a>
+            <a href="{% url 'daftar_kontributor:show_contributor' %}">Contributors</a>
+            <a href="{% url 'daftar_favorit:show_daftar_favorit' %}">Favorites</a>
+            <a href="{% url 'daftar_unduh:show_daftar_unduh' %}">Downloads</a>
+            <a href="{% url 'langganan:show_user_paket' %}">Subscription</a>
         </div>
         <div class="navbar-right">
             <p style="font-size: 14px; padding-right: 10px;">Hello, {{ request.session.username }}!</p>
