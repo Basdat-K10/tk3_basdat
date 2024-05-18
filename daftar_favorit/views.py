@@ -21,7 +21,7 @@ def delete_daftar_favorit(request, judul):
     logged_in_user = request.session["username"]
     q = 'DELETE FROM daftar_favorit WHERE judul = %s AND username = %s'
     query(q, [judul, logged_in_user])
-    return redirect(request, 'daftar_favorit.html', {'daftar_favorit':list_daftar_favorit})
+    return HttpResponse('Succesfully deleted.', status=200)
 
 # READ isi daftar favorit (judul tayangan)
 def detail_daftar_favorit(request, judul):
@@ -45,4 +45,4 @@ def delete_tayangan_daftar_favorit(request, id, judul):
     WHERE df.judul = %s AND p.username = %s
     '''
     query(q, [id, judul, logged_in_user])
-    return redirect(request,'detail_daftar_favorit', context = {'detail_daftar_favorit': detail_daftar_favorit})
+    return HttpResponse('Succesfully deleted.', status=200)
