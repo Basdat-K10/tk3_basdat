@@ -30,7 +30,15 @@
             border-collapse: collapse;
             margin-top: 1px;
             color: white;
-            
+        }
+        td:nth-child(2){
+            text-align: center;
+        }
+        .dateadded{
+            text-align: center;
+        }
+        .action{
+            text-align: right;
         }
         th, td {
             padding: 12px; 
@@ -39,10 +47,7 @@
         td:nth-child(3) {
             text-align: right;
         }
-        td:nth-child(2){
-            text-align: center;
-        }
-        th {
+        th{
             background-color: #baa5d4;
             color: #010845;
         }
@@ -56,6 +61,18 @@
             padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
+            text-decoration: none;
+        }
+        .view-btn {
+            background-color: #baa5d4;
+            color: #010845;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            align-items: right;
+            margin-right: 0.3rem;
+            text-decoration: none;
         }
         tbody {
             padding: 10px; 
@@ -65,69 +82,43 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
             padding-top: 2rem;
         }
+        h3 {
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 <div>
-    <h1>
-    Daftar Favorit 1
-    </h1> 
+    <h1>Your Favorite Lists</h1> 
+    <h3>Your Curated Collection: Favorites Simplified.</h3>
 </div>
 <div class="container">
     <table>
         <thead>
             <tr>
-                <th>Judul</th>
-                <th style="text-align: center">Waktu Ditambahkan</th>
-                <th></th>
+                <th>List Name</th>
+                <th class="dateadded">Date Added</th>
+                <th class="action">Actions</th>
             </tr>
         </thead>
-        <tbody id="favorite-list">
-            <!-- Data favorit dimasukkan di sini -->
+        <tbody>
+            {% for item in daftar_favorit %}
+                <tr>
+                    <td class="col">{{ item.judul }}</td>
+                    <td class="col">{{ item.timestamp }}</td>
+                    <td>
+                        <div class="button">
+                            <a href="detail_daftar_favorit/{{ item.judul }}/" class="view-btn">View</a>
+                            <a href="delete_daftar_favorit/{{ item.judul }}/" class="delete-btn">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
-
-<script>
-    // Contoh data favorit
-    const favoriteData = [
-        { title: "Tayangan 1", addedAt: "2024-05-01 10:00:00" },
-        { title: "Tayangan 2", addedAt: "2024-05-02 12:00:00" },
-        { title: "Tayangan 3", addedAt: "2024-05-03 14:00:00" }
-    ];
-
-    // Fungsi untuk memuat daftar favorit
-    function loadFavoriteList() {
-    const favoriteList = document.getElementById('favorite-list');
-    favoriteList.innerHTML = ''; 
-
-    favoriteData.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.title}</td>
-            <td>${item.addedAt}</td>
-            <td><button class="delete-btn" onclick="deleteItem('${item.title}')">Delete</button></td>
-        `;
-        favoriteList.appendChild(row);
-    });
-    }
-
-    // Fungsi untuk menghapus item dari daftar favorit
-    function deleteItem(title) {
-        const index = favoriteData.findIndex(item => item.title === title);
-        if (index !== -1) {
-            favoriteData.splice(index, 1);
-            loadFavoriteList(); 
-        }
-    }
-
-    // Memanggil fungsi untuk memuat daftar favorit saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', function() {
-        loadFavoriteList();
-    });
-
-</script>
 </body>
 </html>
-
 {% endblock content %}

@@ -735,3 +735,19 @@ INSERT INTO TAYANGAN_TERUNDUH VALUES ('f2507d84-bfbf-42ab-8f05-c699f39aa198','Sa
 	('5d2a09e7-5982-4ff8-98a5-4a43d7f197d9','JamesNguyen','2024-04-28 13:15:45'),
 	('602b526d-1aad-4a1c-a71a-b19c8d00426e','SophiaMartinez','2024-04-28 14:30:00'),
 	('106ba113-3bf3-440d-8f4f-9fa2a5929d89','DavidKim','2024-04-28 15:45:15');
+
+-- TRIGGERS
+-- Buat function untuk menghapus baris terkait
+CREATE OR REPLACE FUNCTION delete_related_tayangan_memiliki_daftar_favorit() RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM tayangan_memiliki_daftar_favorit
+    WHERE timestamp = OLD.timestamp AND username = OLD.username;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Buat trigger untuk memanggil function sebelum penghapusan baris di daftar_favorit
+CREATE TRIGGER before_delete_on_daftar_favorit
+BEFORE DELETE ON daftar_favorit
+FOR EACH ROW
+EXECUTE FUNCTION delete_related_tayangan_memiliki_daftar_favorit();
