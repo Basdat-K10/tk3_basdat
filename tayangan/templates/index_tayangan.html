@@ -6,6 +6,28 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
     {% endblock meta %}
     <style>
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        #tayangan {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .outlined-column {
+            padding: 10px;
+            margin: 10px;
+        }
+        
+        .inline-search p {
+            margin: 0;
+            padding: 0;
+        }
+                
         body {
             background: linear-gradient(to bottom, #2F338A, #010845);
             color: white;
@@ -14,7 +36,6 @@
         table {
             border-spacing: 0px 5px;
             color: black;
-            
         }
 
         .outlined-column {
@@ -56,7 +77,7 @@
         }
 
         th {
-            background-color: #B7A6D1;
+            background-color: white;
             color : #2523A0;
         }
 
@@ -90,15 +111,22 @@
             text-decoration: none;
             color: white;
         }
+
+        a {
+            color: white;
+        }
     </style>
     <div class=" flex-container">
         <div>
             <a href="#" class=" button_up">Top 10 Global</a>
-            <a href="#" class=" button_up">Top 10 Negara Pengguna</a>
+            <a href="#" class=" button_up">Top 10 Tayangan Terbaik</a>
         </div>
         
         <div class="center-content inline-search search_input">
-            <p>Search : <input type: "search"/></p>
+            <form action="{% url 'tayangan:search' %}" method="get">
+                <p>Search : <input type="search" name="q"/>  <input class="button_up" type="submit" value="Search"> </p>
+               
+            </form>
         </div>
     </div>
         <h1 class="center-content">Daftar Tayangan</h1>
@@ -120,12 +148,12 @@
                 <td class="outlined-column">{{ movie.rank }}</td>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">{{ movie.total_view }}</td>
                 <td class="outlined-column">
                     <button class="detail_button">
-                        <a class="detail_text" href="{% url 'top' movie.id %}">Detail {{ movie.title }}</a>    
+                        <a class="detail_text" href="{% url 'tayangan:top' movie.id %}">Detail {{ movie.title }}</a>    
                     </button>
                 </td>
             </tr>
@@ -148,11 +176,11 @@
                 <tr>
                     <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                    <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                    <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                     <td class="outlined-column">{{ movie.release_date }}</td>
                     <td class="outlined-column">
                         <button class="detail_button">
-                            <a class="detail_text" href="{% url 'film' movie.id %}">Detail {{ movie.title }}</a>    
+                            <a class="detail_text" href="{% url 'tayangan:film' movie.id %}">Detail {{ movie.title }}</a>    
                         </button>
                     </td>
                 </tr>
@@ -175,11 +203,11 @@
             <tr>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column"><a>{{ movie.url|truncatechars:50 }}</a></td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
                 <td class="outlined-column">
                 <button class="detail_button">
-                    <a class="detail_text" href="{% url 'series' movie.id %}">Detail {{ movie.title }}</a>    
+                    <a class="detail_text" href="{% url 'tayangan:series' movie.id %}">Detail {{ movie.title }}</a>    
                 </button>
                 </td>
             </tr>

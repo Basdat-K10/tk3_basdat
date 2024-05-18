@@ -69,12 +69,13 @@
         margin: 40px;
     }
 </style>
-
+<form action="{% url 'tayangan:menonton_durasi' id_series %}" method="post">
+{% csrf_token %}
 <div class="detail_division">
     <div class="nav_atas">
         <h3>Halaman Episode</h3>
         <div>
-            <button class="detail_button"><a class="detail_text" href="#"> Watch Episode </a></button>
+            <button class="detail_button"><a class="detail_text" type="submit"> Watch Episode </a></button>
         </div>
     </div>
     
@@ -86,6 +87,8 @@
             <strong>Sub Judul : </strong> {{ sub_title }}<br>
         </h4>
     </div>
+    <input class="w-100" type="range" id="durasi" name="durasi" min="0" max="{{ durasi_episode }}"/><br>
+</form>
     <svg height="2" width="600">
         <line x1="0" y1="0" x2="500" y2="0" style="stroke:#CC353A;stroke-width:2" />
       </svg>
@@ -121,7 +124,7 @@
             </tr>
             {% for episodes in other_episode %}
             <tr>
-                <td class="outlined-column"><a class="detail_text" href="{% url 'episode' id_series=episodes.id_series sub_judul=episodes.sub_judul %}">{{ episodes.sub_judul }}</a></td>
+                <td class="outlined-column"><a class="detail_text" href="{% url 'tayangan:episode' id_series=episodes.id_series sub_judul=episodes.sub_judul %}">{{ episodes.sub_judul }}</a></td>
             </tr>
             {% endfor %}
         </table>

@@ -1,9 +1,13 @@
-SQL : 
+
+-- Schema
+CREATE SCHEMA PACILFLIX;
+
+SET SEARCH_PATH TO PACILFLIX;
+
 -- Pengguna
 CREATE TABLE PENGGUNA (
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(50) NOT NULL,
-    id_tayangan UUID REFERENCES TAYANGAN(id),
 negara_asal VARCHAR(50) NOT NULL
 );
 
@@ -195,16 +199,15 @@ CREATE TABLE TAYANGAN_TERUNDUH (
     FOREIGN KEY (username) REFERENCES PENGGUNA(username)
 );
 
-INSERT : 
-
-INSERT INTO PENGGUNA VALUES ('SarahJohnson','J0hnson!Sarah','106ba113-3bf3-440d-8f4f-9fa2a5929d89','Indonesia'),
-	('MichaelSmith','Sm1th2024!','d9d422a0-6cc5-48dc-af5a-bcd4a47c561c','Amerika Serikat'),
-	('EmilyGarcia','Garcia#Em1ly','bb770fb0-bd0d-4a91-ab68-1efe8fcdc2af','Indonesia'),
-	('JamesNguyen','Nguy3nP@ssword','8ee5ba0f-194f-42db-b5b5-5297b4da290b','Indonesia'),
-	('SophiaMartinez','M@rtinez123!','5d2a09e7-5982-4ff8-98a5-4a43d7f197d9','Amerika Serikat'),
-	('DavidKim','K1m!David','e3d10264-d586-4852-b128-6f757c1667b4','Amerika Serikat'),
-	('OliviaLopez','L0pezPwd456','8ee5ba0f-194f-42db-b5b5-5297b4da290b','Jepang'),
-	('EthanPatel','P@telEthan007','405dc63e-0ea5-410f-93bb-6d41c130d82f','Jepang');
+-- INSERT
+INSERT INTO PENGGUNA VALUES ('SarahJohnson','J0hnson!Sarah','Indonesia'),
+	('MichaelSmith','Sm1th2024!','Amerika Serikat'),
+	('EmilyGarcia','Garcia#Em1ly','Indonesia'),
+	('JamesNguyen','Nguy3nP@ssword','Indonesia'),
+	('SophiaMartinez','M@rtinez123!','Amerika Serikat'),
+	('DavidKim','K1m!David','Amerika Serikat'),
+	('OliviaLopez','L0pezPwd456','Jepang'),
+	('EthanPatel','P@telEthan007','Jepang');
 
 INSERT INTO PAKET VALUES ('Basic',60000.0,'720p'),
 	('Standar',80000.0,'1080p'),
@@ -657,11 +660,6 @@ INSERT INTO TAYANGAN_MEMILIKI_DAFTAR_FAVORIT VALUES ('e3d10264-d586-4852-b128-6f
 	('5d2a09e7-5982-4ff8-98a5-4a43d7f197d9','2024-04-28 14:15:00','SarahJohnson'),
 	('a570abcb-3e59-4892-a22a-20e60a36f935','2024-04-20 12:05:30','SophiaMartinez'),
 	('405dc63e-0ea5-410f-93bb-6d41c130d82f','2024-04-28 08:00:00','SophiaMartinez');
-
-
-
-
-
 
 INSERT INTO RIWAYAT_NONTON VALUES ('f2507d84-bfbf-42ab-8f05-c699f39aa198','SarahJohnson','2024-04-23 05:00:00','2024-04-23 08:00:00'),
 	('f2507d84-bfbf-42ab-8f05-c699f39aa198','MichaelSmith','2024-04-01 06:04:00','2024-04-01 09:04:00'),

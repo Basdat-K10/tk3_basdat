@@ -7,11 +7,11 @@ import os
 
 try:
     connection = psycopg2.connect(
-        user=os.getenv("DB_USERNAME", "postgres"),
-        password=os.getenv("DB_PASSWORD", "password"),
-        host=os.getenv("DB_HOST", "localhost"),
-        port=os.getenv("DB_PORT", "5432"),
-        database=os.getenv("DB_NAME", "postgres"))
+        user=os.getenv("DB_USERNAME", "avnadmin"),
+        password=os.getenv("DB_PASSWORD", "AVNS_ivRXzozyV6jfpn-JVxu"),
+        host=os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
+        port=os.getenv("DB_PORT", "23774"),
+        database=os.getenv("DB_NAME", "defaultdb"))
 
     # Create a cursor to perform database operations
     connection.autocommit = True
@@ -41,6 +41,6 @@ def query(query_str: str, parameter: tuple = tuple()):
                 result = cursor.rowcount
                 connection.commit()
         except Exception as e:
-            result = e
+           raise e
 
     return result

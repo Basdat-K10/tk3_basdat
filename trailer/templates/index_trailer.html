@@ -57,7 +57,7 @@
         }
 
         th {
-            background-color: #B7A6D1;
+            background-color: white;
             color : #2523A0;
             
             
@@ -73,18 +73,44 @@
             margin-right: 30px;
         }
 
+        a {
+            color: white;
+        }
+        
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        #tayangan {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .outlined-column {
+            padding: 10px;
+            margin: 10px;
+        }
+        
+        .inline-search p {
+            margin: 0;
+            padding: 0;
+        }
+                
 
     </style>
         <div class=" flex-container">
             <div>
                 <a href="#" class="button_up">Top 10 Global</a>
-                <a href="#" class="button_up">Top 10 Negara Pengguna</a>
+                <a href="#" class="button_up">Top 10 Tayangan Terbaik</a>
             </div>
             
             <div class="center-content inline-search search_input">
-                <form action="{% url 'search' %}" method="get">
-                    <p>Search : <input type="search" name="q"/></p>
-                    <input type="submit" value="Search">
+                <form action="{% url 'trailer:search' %}" method="get">
+                    <p>Search : <input type="search" name="q"/> <input class="button_up" type="submit" value="Search"> </p>
+                    
                 </form>
             </div>
         </div>
@@ -106,7 +132,7 @@
                     <td class="outlined-column">{{ movie.rank }}</td>
                     <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                     <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                    <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                    <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                     <td class="outlined-column">{{ movie.release_date }}</td>
                     <td class="outlined-column">{{ movie.total_view }}</td>
                 </tr>
@@ -127,7 +153,7 @@
             <tr>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
             </tr>
             {% endfor %}
@@ -147,7 +173,7 @@
             <tr>
                 <td class="outlined-column">{{ movie.title|truncatechars:50 }}</td>
                 <td class="outlined-column">{{ movie.synopsis|truncatechars:50 }}</td>
-                <td class="outlined-column">{{ movie.url|truncatechars:50 }}</td>
+                <td class="outlined-column"><a href="{{ movie.url }}">{{ movie.url|truncatechars:50 }}</a></td>
                 <td class="outlined-column">{{ movie.release_date }}</td>
             </tr>
             {% endfor %}

@@ -28,7 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-9d36f.up.railway.app",
+    "http://localhost",
+    "http://127.0.0.1:8000",
+    "https://pacilflix.up.railway.app",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,7 +50,9 @@ INSTALLED_APPS = [
     "daftar_favorit",
     "daftar_unduh",
     "daftar_kontributor",
-    "langganan"
+    "langganan",
+    "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "tk3_basdat.urls"
@@ -78,18 +86,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "tk3_basdat.wsgi.application"
 
-
+CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_HEADERS = True
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DB_NAME", "postgres"),
-        "USER": os.getenv("DB_USERNAME", "postgres"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "password"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "5432")
+        "NAME": os.getenv("DB_NAME", "defaultdb"),
+        "USER": os.getenv("DB_USERNAME", "avnadmin"),
+        "PASSWORD": os.getenv("DB_PASSWORD","AVNS_ivRXzozyV6jfpn-JVxu"),
+        "HOST": os.getenv("DB_HOST", "basdat-k10-arya-2952.g.aivencloud.com"),
+        "PORT": os.getenv("DB_PORT", "23774")
     }
 }
 
