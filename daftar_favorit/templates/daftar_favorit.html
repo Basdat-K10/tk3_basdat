@@ -108,8 +108,8 @@
                     <td class="col">{{ item.timestamp }}</td>
                     <td>
                         <div class="button">
-                            <a href="{% url 'detail_daftar_favorit' %}"class="view-btn">View</a>
-                            <a href="{% url 'delete_daftar_favorit' item.timestamp item.username %}" class="delete-btn">Delete</a>
+                            <a href="detail_daftar_favorit/{{ item.judul }}/" class="view-btn">View</a>
+                            <a href="delete_daftar_favorit/{{ item.timestamp }}/{{ item.username }}/" class="delete-btn">Delete</a>
                         </div>
                     </td>
                 </tr>
