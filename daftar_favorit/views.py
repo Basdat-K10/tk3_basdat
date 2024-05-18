@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from utils.query import query
 
@@ -15,14 +16,15 @@ def list_daftar_favorit(request):
     return render(request, 'daftar_favorit.html', {'daftar_favorit': daftar_favorit})
 
 # DELETE list daftar favorit
-def delete_daftar_favorit(request, timestamp, username):
-    q = 'DELETE FROM daftar_favorit WHERE timestamp = %s AND username = %s'
-    query(q, [timestamp, username])
-    return redirect('list_daftar_favorit')
+def delete_daftar_favorit(request, judul):
+    print("tes")
+    logged_in_user = request.session["username"]
+    q = 'DELETE FROM daftar_favorit WHERE judul = %s AND username = %s'
+    query(q, [judul, logged_in_user])
+    return redirect(request, 'daftar_favorit.html', {'daftar_favorit':list_daftar_favorit})
 
 # READ isi daftar favorit (judul tayangan)
 def detail_daftar_favorit(request, judul):
-    print("tes")
     logged_in_user = request.session["username"]
     q = '''
     SELECT t.id, t.judul, tf.timestamp
@@ -32,12 +34,15 @@ def detail_daftar_favorit(request, judul):
     WHERE tf.username = %s AND df.judul = %s
     '''
     detail_daftar_favorit = query(q, [logged_in_user, judul])
-    print("judul: ", judul)
-    print(detail_daftar_favorit)
-    print("tes 2")
     return render(request, 'detail_daftar_favorit.html', context = {'detail_daftar_favorit': detail_daftar_favorit})
 
-def delete_tayangan_daftar_favorit(request, id_tayangan, timestamp, username):
-    q = 'DELETE FROM tayangan_memiliki_daftar_favorit WHERE id_tayangan = %s AND timestamp = %s AND username = %s'
-    query(q, [id_tayangan, timestamp, username])
-    return redirect('list_isi_daftar_favorit', timestamp=timestamp, username=username)
+def delete_tayangan_daftar_favorit(request, id, judul):
+    logged_in_user = request.session["username"]
+    q = '''
+    DELETE FROM tayangan_memiliki_daftar_favorit 
+    WHERE id IN (SELECT t.id FROM tayangan t WHERE t.id = id)
+    AND timestamp IN (SELECT df.timestamp FROM daftar_favorit df JOIN pengguna p ON df.username = p.username)
+    WHERE df.judul = %s AND p.username = %s
+    '''
+    query(q, [id, judul, logged_in_user])
+    return redirect(request,'detail_daftar_favorit', context = {'detail_daftar_favorit': detail_daftar_favorit})

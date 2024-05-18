@@ -52,6 +52,7 @@
             padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
+            text-decoration: none;
         }
         tbody {
             padding: 10px;
@@ -79,6 +80,7 @@
             {% for tayangan in detail_daftar_favorit %}
                 <tr>
                     <td>{{ tayangan.judul }}</td>
+                    <td> <a href="/delete_tayangan_daftar_favorit/{{ tayangan.id }}/{{ tayangan.judul }}/" class="delete-btn">Delete</a></td>
                 </tr>
             {% endfor %}
         </tbody>

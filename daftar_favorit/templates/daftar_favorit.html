@@ -61,6 +61,7 @@
             padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
+            text-decoration: none;
         }
         .view-btn {
             background-color: #baa5d4;
@@ -71,6 +72,7 @@
             cursor: pointer;
             align-items: right;
             margin-right: 0.3rem;
+            text-decoration: none;
         }
         tbody {
             padding: 10px; 
@@ -109,7 +111,7 @@
                     <td>
                         <div class="button">
                             <a href="detail_daftar_favorit/{{ item.judul }}/" class="view-btn">View</a>
-                            <a href="delete_daftar_favorit/{{ item.timestamp }}/{{ item.username }}/" class="delete-btn">Delete</a>
+                            <a href="delete_daftar_favorit/{{ item.judul }}/" class="delete-btn">Delete</a>
                         </div>
                     </td>
                 </tr>
